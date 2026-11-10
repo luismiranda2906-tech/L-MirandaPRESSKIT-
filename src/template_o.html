@@ -216,8 +216,23 @@ button{font-family:inherit}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chip{display:inline-block;font:700 11px/1 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#050806;background:#f6c51e;border:0;padding:9px 12px;text-decoration:none;cursor:pointer}
 .chip:hover{background:#fff;color:#050806}
-.drv{background:#e9ece9;border:1px solid #23463a;padding:2px}
-.dframe{display:block;width:100%;height:min(52vh,460px);border:0;background:#fff}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px}
+.gi{position:relative;display:block;aspect-ratio:1;padding:0;border:0;background:#0a120e;cursor:pointer;overflow:hidden}
+.gi img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9);transition:transform .3s,filter .3s}
+.gi:hover img,.gi:focus-visible img{transform:scale(1.07);filter:none}
+.gi.v::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 0 12px #000,0 0 4px #000;background:#0003}
+.lbx{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;background:#000e;padding:56px 60px 70px}
+.lbx.on{display:flex}
+.lbx .stagei{max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.lbx img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 10px 40px #000}
+.lbx iframe{width:min(100%,1000px);aspect-ratio:16/9;max-height:100%;border:0;background:#000}
+.lbx .x,.lbx .nv{position:absolute;background:#050806e6;border:1px solid #3a3f48;color:#dfeee6;cursor:pointer;font:700 12px 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;min-height:40px;min-width:40px}
+.lbx .x{top:12px;right:12px;padding:0 14px}
+.lbx .nv{top:50%;transform:translateY(-50%);font-size:20px;width:44px;height:64px}
+.lbx .nv.p{left:10px}.lbx .nv.n{right:10px}
+.lbx .x:hover,.lbx .nv:hover{border-color:#f6c51e;color:#f6c51e}
+.lbx .dl{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font:700 12px 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#050806;background:#f6c51e;padding:11px 16px;text-decoration:none}
+.lbx .cnt{position:absolute;top:22px;left:20px;font:700 11px 'Space Mono',monospace;letter-spacing:.2em;color:#8fb3a3}
 .hint2{font:700 11px/1.4 'Space Mono',monospace;letter-spacing:.08em;color:#8fb3a3;margin:0 0 10px!important}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .row3 img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.9)}
@@ -270,7 +285,8 @@ button{font-family:inherit}
   .ctl .b{width:5cqw;height:5cqw;min-width:22px;min-height:22px}.ctl .b.play{width:6cqw;height:6cqw}
   .two{grid-template-columns:1fr}
   .row3{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .dframe{height:60vh}
+  .gal{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .lbx{padding:56px 8px 70px}.lbx .nv{width:36px;height:54px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.beer .arm{display:none}}
 </style>
@@ -361,6 +377,14 @@ __PANELS__
     <a href="mailto:__BOOKING_EMAIL__">__BOOKING_EMAIL__</a>
   </nav></div>
 </div>
+<div class="lbx" id="lbx" role="dialog" aria-modal="true" aria-label="Galería">
+  <span class="cnt" id="lbCnt"></span>
+  <button class="x" type="button" id="lbX">✕ cerrar</button>
+  <button class="nv p" type="button" id="lbP" aria-label="Anterior">‹</button>
+  <div class="stagei" id="lbStage"></div>
+  <button class="nv n" type="button" id="lbN" aria-label="Siguiente">›</button>
+  <a class="dl" id="lbDl" href="#" target="_blank" rel="noopener">⬇ descargar</a>
+</div>
 <div id="toast" role="status"></div>
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -387,7 +411,6 @@ const show = (id, from) => {
   document.querySelectorAll('.panel').forEach(x => x.classList.toggle('on', x === p));
   $('#sTitle').textContent = p.dataset.t;
   if (id === 'p-vid') { if (!yt.src) yt.src = yt.dataset.src; } else yt.removeAttribute('src');
-  p.querySelectorAll('.dframe').forEach(f => { if (!f.src) f.src = f.dataset.src; });
   setPanel(false); stage.classList.add('open');
   $('.pbody').scrollTop = 0; $('#backBtn').focus({preventScroll:true});
 };
@@ -429,6 +452,25 @@ $('#bookForm').addEventListener('submit', (e) => {
   ok.hidden = false; ok.textContent = 'Se ha abierto tu correo. Si no, escribe a ' + BOOKING_EMAIL + '.';
 });
 
+/* galería: todo junto en cuadrícula y visor grande */
+(function(){
+  const lb = $('#lbx'), st = $('#lbStage'); let list = [], idx = 0, kind = 'fotos', from = null;
+  const draw = () => {
+    const id = list[idx];
+    st.innerHTML = kind === 'videos'
+      ? '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen title="Vídeo"></iframe>'
+      : '<img src="https://drive.google.com/thumbnail?id=' + id + '&sz=w1800" alt="Foto ' + (idx + 1) + '">';
+    $('#lbDl').href = 'https://drive.google.com/uc?export=download&id=' + id;
+    $('#lbCnt').textContent = (kind === 'videos' ? 'vídeo ' : 'foto ') + (idx + 1) + ' / ' + list.length;
+  };
+  const open = (b) => { kind = b.dataset.g; list = [...document.querySelectorAll('.gi[data-g="' + kind + '"]')].map(x => x.dataset.id); idx = +b.dataset.i; from = b; draw(); lb.classList.add('on'); $('#lbX').focus(); };
+  const close = () => { lb.classList.remove('on'); st.innerHTML = ''; if (from) from.focus(); };
+  const go = (d) => { idx = (idx + d + list.length) % list.length; draw(); };
+  document.addEventListener('click', (e) => { const b = e.target.closest('.gi'); if (b) open(b); });
+  $('#lbX').addEventListener('click', close); $('#lbP').addEventListener('click', () => go(-1)); $('#lbN').addEventListener('click', () => go(1));
+  lb.addEventListener('click', (e) => { if (e.target === lb || e.target === st) close(); });
+  addEventListener('keydown', (e) => { if (!lb.classList.contains('on')) return; if (e.key === 'Escape') { e.stopImmediatePropagation(); close(); } if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); }, true);
+})();
 /*PLAYER*/
 </script>
 </body>

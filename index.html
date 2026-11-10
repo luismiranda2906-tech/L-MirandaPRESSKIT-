@@ -216,8 +216,23 @@ button{font-family:inherit}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chip{display:inline-block;font:700 11px/1 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#050806;background:#f6c51e;border:0;padding:9px 12px;text-decoration:none;cursor:pointer}
 .chip:hover{background:#fff;color:#050806}
-.drv{background:#e9ece9;border:1px solid #23463a;padding:2px}
-.dframe{display:block;width:100%;height:min(52vh,460px);border:0;background:#fff}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px}
+.gi{position:relative;display:block;aspect-ratio:1;padding:0;border:0;background:#0a120e;cursor:pointer;overflow:hidden}
+.gi img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9);transition:transform .3s,filter .3s}
+.gi:hover img,.gi:focus-visible img{transform:scale(1.07);filter:none}
+.gi.v::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 0 12px #000,0 0 4px #000;background:#0003}
+.lbx{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;background:#000e;padding:56px 60px 70px}
+.lbx.on{display:flex}
+.lbx .stagei{max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.lbx img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 10px 40px #000}
+.lbx iframe{width:min(100%,1000px);aspect-ratio:16/9;max-height:100%;border:0;background:#000}
+.lbx .x,.lbx .nv{position:absolute;background:#050806e6;border:1px solid #3a3f48;color:#dfeee6;cursor:pointer;font:700 12px 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;min-height:40px;min-width:40px}
+.lbx .x{top:12px;right:12px;padding:0 14px}
+.lbx .nv{top:50%;transform:translateY(-50%);font-size:20px;width:44px;height:64px}
+.lbx .nv.p{left:10px}.lbx .nv.n{right:10px}
+.lbx .x:hover,.lbx .nv:hover{border-color:#f6c51e;color:#f6c51e}
+.lbx .dl{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font:700 12px 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#050806;background:#f6c51e;padding:11px 16px;text-decoration:none}
+.lbx .cnt{position:absolute;top:22px;left:20px;font:700 11px 'Space Mono',monospace;letter-spacing:.2em;color:#8fb3a3}
 .hint2{font:700 11px/1.4 'Space Mono',monospace;letter-spacing:.08em;color:#8fb3a3;margin:0 0 10px!important}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .row3 img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.9)}
@@ -270,7 +285,8 @@ button{font-family:inherit}
   .ctl .b{width:5cqw;height:5cqw;min-width:22px;min-height:22px}.ctl .b.play{width:6cqw;height:6cqw}
   .two{grid-template-columns:1fr}
   .row3{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .dframe{height:60vh}
+  .gal{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .lbx{padding:56px 8px 70px}.lbx .nv{width:36px;height:54px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.beer .arm{display:none}}
 </style>
@@ -400,13 +416,13 @@ button{font-family:inherit}
       <section class="panel" id="p-vid" data-t="vídeos">
         <iframe class="yt" id="ytf" data-src="https://www.youtube.com/embed/j2IHmWWnTM8?rel=0" title="LA CREOLE invite L'Miranda · Rinse France" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <p class="hint2" style="margin-top:16px">Todos los vídeos · pulsa uno para verlo y descargarlo.</p>
-        <div class="drv"><iframe class="dframe" data-src="https://drive.google.com/embeddedfolderview?id=1HcD8o-i_sStxpM09HUEj9DMKFLajxro5#grid" title="Vídeos de L'Miranda en Google Drive"></iframe></div>
+        <div class="gal"><button type="button" class="gi v" data-g="videos" data-i="0" data-id="10S7H5ayzEmTvluIEXoRrJ1M2CeXN4iCo" aria-label="Vídeo 1"><img loading="lazy" src="https://drive.google.com/thumbnail?id=10S7H5ayzEmTvluIEXoRrJ1M2CeXN4iCo&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="1" data-id="10jXMLZYFY3gixINMXgVgpsV5m4sdSozy" aria-label="Vídeo 2"><img loading="lazy" src="https://drive.google.com/thumbnail?id=10jXMLZYFY3gixINMXgVgpsV5m4sdSozy&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="2" data-id="15pusU9eN9N-9oIP0Xyihi0iUXBe3ZsOc" aria-label="Vídeo 3"><img loading="lazy" src="https://drive.google.com/thumbnail?id=15pusU9eN9N-9oIP0Xyihi0iUXBe3ZsOc&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="3" data-id="1gy2xi2AmpgVOmgCDb5BqgnpHrbKK3gji" aria-label="Vídeo 4"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1gy2xi2AmpgVOmgCDb5BqgnpHrbKK3gji&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="4" data-id="1GOp12G0HnYIw7GV0QrkJB_t8qTTGSmi_" aria-label="Vídeo 5"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1GOp12G0HnYIw7GV0QrkJB_t8qTTGSmi_&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="5" data-id="1pI19Za4rLpbus_IDyzoeQA3mTUJQbTao" aria-label="Vídeo 6"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1pI19Za4rLpbus_IDyzoeQA3mTUJQbTao&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="6" data-id="10Tw8UHDjupASpknApE4CLwj3yhBFxbQb" aria-label="Vídeo 7"><img loading="lazy" src="https://drive.google.com/thumbnail?id=10Tw8UHDjupASpknApE4CLwj3yhBFxbQb&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="7" data-id="1wa1ySGuPvaC7VuiecUTgkJe4GJzKWPKb" aria-label="Vídeo 8"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1wa1ySGuPvaC7VuiecUTgkJe4GJzKWPKb&amp;sz=w400" alt=""></button><button type="button" class="gi v" data-g="videos" data-i="8" data-id="1lT-3ROznuHRlh4c4eQ_3wG0AqirEuEY1" aria-label="Vídeo 9"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1lT-3ROznuHRlh4c4eQ_3wG0AqirEuEY1&amp;sz=w400" alt=""></button></div>
         <div class="chips"><a class="chip" href="https://drive.google.com/drive/folders/1HcD8o-i_sStxpM09HUEj9DMKFLajxro5?usp=sharing" target="_blank" rel="noopener">⬇ descargar todos</a><a class="chip" href="https://www.instagram.com/lilfemiranda/reels/" target="_blank" rel="noopener">reels</a><a class="chip" href="https://www.youtube.com/watch?v=j2IHmWWnTM8" target="_blank" rel="noopener">youtube</a></div>
       </section>
 
       <section class="panel" id="p-fotos" data-t="fotos">
         <p class="hint2">Pulsa una foto para abrirla en alta y descargarla.</p>
-        <div class="drv"><iframe class="dframe" data-src="https://drive.google.com/embeddedfolderview?id=1-zXdux3NVXg0APTMoxG6T4v7MVquMrON#grid" title="Fotos de L'Miranda en Google Drive"></iframe></div>
+        <div class="gal"><button type="button" class="gi" data-g="fotos" data-i="0" data-id="1AxohmcE2gxuBa7FB8YKJpGwrysD7FEaY" aria-label="Foto 1"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1AxohmcE2gxuBa7FB8YKJpGwrysD7FEaY&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="1" data-id="19YbO6alzkFYWopWf6ASf6tb9uxZTWLFo" aria-label="Foto 2"><img loading="lazy" src="https://drive.google.com/thumbnail?id=19YbO6alzkFYWopWf6ASf6tb9uxZTWLFo&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="2" data-id="13wxffq2oWzOByG0045m0FVg9VgHSGvao" aria-label="Foto 3"><img loading="lazy" src="https://drive.google.com/thumbnail?id=13wxffq2oWzOByG0045m0FVg9VgHSGvao&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="3" data-id="1pQFmOHU1Oox8SiiZyZD_YDKd5SJP8DId" aria-label="Foto 4"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1pQFmOHU1Oox8SiiZyZD_YDKd5SJP8DId&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="4" data-id="1pHqH_NNySSpEBMZRR8lr06V1EJQiF1LK" aria-label="Foto 5"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1pHqH_NNySSpEBMZRR8lr06V1EJQiF1LK&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="5" data-id="1Phky6yxbDv9KV6zBjxHl9EAro7QWxzqA" aria-label="Foto 6"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1Phky6yxbDv9KV6zBjxHl9EAro7QWxzqA&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="6" data-id="1TmA-FMy5-SVqT3--O3maIo4foPmZ3jgr" aria-label="Foto 7"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1TmA-FMy5-SVqT3--O3maIo4foPmZ3jgr&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="7" data-id="1mwFS3Qrb4-eD5KHCMor3a0AR4fc5hfhn" aria-label="Foto 8"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1mwFS3Qrb4-eD5KHCMor3a0AR4fc5hfhn&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="8" data-id="1Du28OjuATqEXsVl8zidVFAe-cDMd-soS" aria-label="Foto 9"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1Du28OjuATqEXsVl8zidVFAe-cDMd-soS&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="9" data-id="1gjxpSgF_6hCsaUckgtCQI4NtrTzxje0A" aria-label="Foto 10"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1gjxpSgF_6hCsaUckgtCQI4NtrTzxje0A&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="10" data-id="1zp-LYKKCn_gNIgcFXmr95z1p6tYlFA2u" aria-label="Foto 11"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1zp-LYKKCn_gNIgcFXmr95z1p6tYlFA2u&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="11" data-id="1e3H7dxdiupHdMtZX8wunClfjs5OseEFp" aria-label="Foto 12"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1e3H7dxdiupHdMtZX8wunClfjs5OseEFp&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="12" data-id="1p08PbayOP-AY22QIsCulIQ31N4HeaR-1" aria-label="Foto 13"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1p08PbayOP-AY22QIsCulIQ31N4HeaR-1&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="13" data-id="1-MReou5xaOumjlJoX_PcAVkwc4CGUdW5" aria-label="Foto 14"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1-MReou5xaOumjlJoX_PcAVkwc4CGUdW5&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="14" data-id="1pPx3nbLDoLa1AYIJzJNTF0IO9SxCZr0X" aria-label="Foto 15"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1pPx3nbLDoLa1AYIJzJNTF0IO9SxCZr0X&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="15" data-id="1u5CdIuAsBWEs9tdK1ZudngiVYMuUnpWu" aria-label="Foto 16"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1u5CdIuAsBWEs9tdK1ZudngiVYMuUnpWu&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="16" data-id="1YNOnWOjAWqiUVBJ95OS8hZ3Lxxqko7Bm" aria-label="Foto 17"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1YNOnWOjAWqiUVBJ95OS8hZ3Lxxqko7Bm&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="17" data-id="1POUfufs4UXf0RDvDQXL_GmfgafClNl_p" aria-label="Foto 18"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1POUfufs4UXf0RDvDQXL_GmfgafClNl_p&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="18" data-id="1Tn1xJ3kmiBjYT8GHe4ZnLkIz1eudBIzg" aria-label="Foto 19"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1Tn1xJ3kmiBjYT8GHe4ZnLkIz1eudBIzg&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="19" data-id="1qRBHG4p9SlCer3oQrpzusIFzcYFTaVk9" aria-label="Foto 20"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1qRBHG4p9SlCer3oQrpzusIFzcYFTaVk9&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="20" data-id="1lqMloKd5ODrIiOCViOQ5W9FRITx7GhhT" aria-label="Foto 21"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1lqMloKd5ODrIiOCViOQ5W9FRITx7GhhT&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="21" data-id="1IAkOHJLfpNi9monxdEF0rIUuvSTYJhGx" aria-label="Foto 22"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1IAkOHJLfpNi9monxdEF0rIUuvSTYJhGx&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="22" data-id="1_4EjI6Mcj2lse3gKs2Y5Bm5zK0haHdwk" aria-label="Foto 23"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1_4EjI6Mcj2lse3gKs2Y5Bm5zK0haHdwk&amp;sz=w400" alt=""></button><button type="button" class="gi" data-g="fotos" data-i="23" data-id="1aIrONUy600YmjJW74Ll6t5Y9gL-tPb-L" aria-label="Foto 24"><img loading="lazy" src="https://drive.google.com/thumbnail?id=1aIrONUy600YmjJW74Ll6t5Y9gL-tPb-L&amp;sz=w400" alt=""></button></div>
         <div class="chips"><a class="chip" href="https://drive.google.com/drive/folders/1-zXdux3NVXg0APTMoxG6T4v7MVquMrON?usp=sharing" target="_blank" rel="noopener">⬇ descargar todas</a><a class="chip" href="https://www.instagram.com/lilfemiranda/" target="_blank" rel="noopener">instagram</a></div>
       </section>
 
@@ -468,6 +484,14 @@ button{font-family:inherit}
     <a href="mailto:deprerreoforever@gmail.com">deprerreoforever@gmail.com</a>
   </nav></div>
 </div>
+<div class="lbx" id="lbx" role="dialog" aria-modal="true" aria-label="Galería">
+  <span class="cnt" id="lbCnt"></span>
+  <button class="x" type="button" id="lbX">✕ cerrar</button>
+  <button class="nv p" type="button" id="lbP" aria-label="Anterior">‹</button>
+  <div class="stagei" id="lbStage"></div>
+  <button class="nv n" type="button" id="lbN" aria-label="Siguiente">›</button>
+  <a class="dl" id="lbDl" href="#" target="_blank" rel="noopener">⬇ descargar</a>
+</div>
 <div id="toast" role="status"></div>
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -494,7 +518,6 @@ const show = (id, from) => {
   document.querySelectorAll('.panel').forEach(x => x.classList.toggle('on', x === p));
   $('#sTitle').textContent = p.dataset.t;
   if (id === 'p-vid') { if (!yt.src) yt.src = yt.dataset.src; } else yt.removeAttribute('src');
-  p.querySelectorAll('.dframe').forEach(f => { if (!f.src) f.src = f.dataset.src; });
   setPanel(false); stage.classList.add('open');
   $('.pbody').scrollTop = 0; $('#backBtn').focus({preventScroll:true});
 };
@@ -536,6 +559,25 @@ $('#bookForm').addEventListener('submit', (e) => {
   ok.hidden = false; ok.textContent = 'Se ha abierto tu correo. Si no, escribe a ' + BOOKING_EMAIL + '.';
 });
 
+/* galería: todo junto en cuadrícula y visor grande */
+(function(){
+  const lb = $('#lbx'), st = $('#lbStage'); let list = [], idx = 0, kind = 'fotos', from = null;
+  const draw = () => {
+    const id = list[idx];
+    st.innerHTML = kind === 'videos'
+      ? '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen title="Vídeo"></iframe>'
+      : '<img src="https://drive.google.com/thumbnail?id=' + id + '&sz=w1800" alt="Foto ' + (idx + 1) + '">';
+    $('#lbDl').href = 'https://drive.google.com/uc?export=download&id=' + id;
+    $('#lbCnt').textContent = (kind === 'videos' ? 'vídeo ' : 'foto ') + (idx + 1) + ' / ' + list.length;
+  };
+  const open = (b) => { kind = b.dataset.g; list = [...document.querySelectorAll('.gi[data-g="' + kind + '"]')].map(x => x.dataset.id); idx = +b.dataset.i; from = b; draw(); lb.classList.add('on'); $('#lbX').focus(); };
+  const close = () => { lb.classList.remove('on'); st.innerHTML = ''; if (from) from.focus(); };
+  const go = (d) => { idx = (idx + d + list.length) % list.length; draw(); };
+  document.addEventListener('click', (e) => { const b = e.target.closest('.gi'); if (b) open(b); });
+  $('#lbX').addEventListener('click', close); $('#lbP').addEventListener('click', () => go(-1)); $('#lbN').addEventListener('click', () => go(1));
+  lb.addEventListener('click', (e) => { if (e.target === lb || e.target === st) close(); });
+  addEventListener('keydown', (e) => { if (!lb.classList.contains('on')) return; if (e.key === 'Escape') { e.stopImmediatePropagation(); close(); } if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); }, true);
+})();
 /* ---------- reproductor SoundCloud ---------- */
 (function(){
   const PRODUCED = 'https://soundcloud.com/l-miranda999/sets/produced-by-lmiranda';

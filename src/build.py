@@ -1,4 +1,4 @@
-import re, base64
+import re, base64, json
 from ctrl import ctrl
 BEER = '''<svg class="beer" viewBox="0 0 1600 1195" aria-hidden="true">
       <defs>
@@ -80,15 +80,19 @@ P = re.sub(r'<div class="row3">.*?</div>', '''<div class="row3">
         </div>''', P, count=1, flags=re.S)
 P = re.sub(r'<section class="panel" id="p-fotos".*?</section>', """<section class="panel" id="p-fotos" data-t="fotos">
         <p class="hint2">Pulsa una foto para abrirla en alta y descargarla.</p>
-        <div class="drv"><iframe class="dframe" data-src="https://drive.google.com/embeddedfolderview?id=1-zXdux3NVXg0APTMoxG6T4v7MVquMrON#grid" title="Fotos de L'Miranda en Google Drive"></iframe></div>
+        __GAL_FOTOS__
         <div class="chips"><a class="chip" href="__DRIVE_FOTOS__" target="_blank" rel="noopener">⬇ descargar todas</a><a class="chip" href="__IG_URL__" target="_blank" rel="noopener">instagram</a></div>
       </section>""", P, count=1, flags=re.S)
 P = re.sub(r'<section class="panel" id="p-vid".*?</section>', """<section class="panel" id="p-vid" data-t="vídeos">
         <iframe class="yt" id="ytf" data-src="https://www.youtube.com/embed/j2IHmWWnTM8?rel=0" title="LA CREOLE invite L'Miranda · Rinse France" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <p class="hint2" style="margin-top:16px">Todos los vídeos · pulsa uno para verlo y descargarlo.</p>
-        <div class="drv"><iframe class="dframe" data-src="https://drive.google.com/embeddedfolderview?id=1HcD8o-i_sStxpM09HUEj9DMKFLajxro5#grid" title="Vídeos de L'Miranda en Google Drive"></iframe></div>
+        __GAL_VIDEOS__
         <div class="chips"><a class="chip" href="__DRIVE_VIDEOS__" target="_blank" rel="noopener">⬇ descargar todos</a><a class="chip" href="__IG_URL__reels/" target="_blank" rel="noopener">reels</a><a class="chip" href="https://www.youtube.com/watch?v=j2IHmWWnTM8" target="_blank" rel="noopener">youtube</a></div>
       </section>""", P, count=1, flags=re.S)
+G = json.load(open('gallery.json'))
+def gal(ids, kind):
+    return '<div class="gal">' + ''.join('<button type="button" class="gi%s" data-g="%s" data-i="%d" data-id="%s" aria-label="%s %d"><img loading="lazy" src="https://drive.google.com/thumbnail?id=%s&amp;sz=w400" alt=""></button>' % (' v' if kind == 'videos' else '', kind, i, fid, 'Vídeo' if kind == 'videos' else 'Foto', i + 1, fid) for i, fid in enumerate(ids)) + '</div>'
+P = P.replace('__GAL_FOTOS__', gal(G['fotos'], 'fotos')).replace('__GAL_VIDEOS__', gal(G['videos'], 'videos'))
 s = s.replace('__PANELS__', P)
 s = s.replace('/*PLAYER*/', open('player.js', encoding='utf-8').read())
 s = s.replace("color=%23ff3399", "color=%23f6c51e").replace("color:'#ff3399'", "color:'#f6c51e'")
