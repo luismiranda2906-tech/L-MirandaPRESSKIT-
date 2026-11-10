@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'Miranda · DJ / Productor · Barcelona</title>
+<meta name="description" content="L'Miranda: DJ y productor venezolano en Barcelona, fundador de Deprerreo. Música, mixes, shows, rider y booking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&family=VT323&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font:14px/1.6 Verdana,Tahoma,Arial,sans-serif;color:#dfeee6;background:#020403;overflow-x:hidden}
+a{color:#f6c51e} a:hover{color:#fff}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:2px solid #f6c51e;outline-offset:3px}
+button{font-family:inherit}
+
+.wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0;overflow:hidden}
+.stage{position:relative;z-index:0;width:min(100%,calc((100vh - 48px) * 1.339));aspect-ratio:1600/1195;container-type:inline-size}
+.stage>.bgimg{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;background:radial-gradient(ellipse at 50% 45%,#0000 55%,#0007 100%);animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.7}}
+.at{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h)}
+/* el fluorescente parpadea de vez en cuando */
+.flk{z-index:2;pointer-events:none;background:radial-gradient(ellipse,#0009,#0000 70%);opacity:0;animation:flk 11s steps(1) infinite}
+@keyframes flk{0%,100%{opacity:0}70%{opacity:.9}71%{opacity:0}73%{opacity:.6}74%{opacity:0}}
+
+
+/* la calle sigue a los lados en pantallas anchas */
+.ext{position:absolute;top:0;bottom:0;left:-120vw;right:-120vw;z-index:-1;pointer-events:none}
+.ext .fas{position:absolute;left:0;right:0;top:0;height:8.44cqw;background:url("__FASCIA__") 0 0/32.5cqw 8.44cqw repeat-x;box-shadow:0 .4cqw .8cqw #0009}
+.ext .wall{position:absolute;left:0;right:0;top:8.44cqw;bottom:0;background:url("__BRICK__") 0 1.9cqw/15cqw 7.5cqw;filter:brightness(.6) saturate(.85) contrast(1.05)}
+.ext .shade{position:absolute;inset:0;background:radial-gradient(ellipse 60% 75% at 50% 45%,#0000 45%,#000a 80%,#000e 100%)}
+.ext .pipe{position:absolute;left:calc(120vw + 99.2cqw);width:2.2cqw;top:7.6cqw;bottom:0;border-radius:.6cqw;background:linear-gradient(90deg,#2a2c30,#8d929b 35%,#c9ccd3 45%,#5b5f68 70%,#1d1f23);box-shadow:.4cqw 0 .8cqw #0009}
+.ext .pipe::before,.ext .pipe::after{content:"";position:absolute;left:-.3cqw;right:-.3cqw;height:1.1cqw;background:linear-gradient(90deg,#2a2c30,#9da1aa 40%,#4b4f57);border-radius:.2cqw}
+.ext .pipe::before{top:22%}.ext .pipe::after{top:64%}
+.ext .lamp{position:absolute;top:9cqw;width:24cqw;height:40cqw;background:radial-gradient(ellipse 45% 60% at 50% 0,#ffd98a2e,#0000 70%)}
+.ext .lamp::before{content:"";position:absolute;left:44%;top:-.4cqw;width:12%;height:1.6cqw;border-radius:0 0 50% 50%;background:linear-gradient(#2a2c30,#55575c);box-shadow:0 .9cqw 1.6cqw #ffd98a66}
+.ext .lamp.l{left:calc(120vw - 25cqw)}.ext .lamp.r{left:calc(120vw + 103cqw);animation:lampf 13s steps(1) infinite}
+@keyframes lampf{0%,100%{opacity:1}40%{opacity:.4}41%{opacity:1}43%{opacity:.5}44%{opacity:1}}
+.poster{position:absolute;z-index:3;top:21cqw;width:16cqw;padding:1cqw 1cqw 1.4cqw;border:0;cursor:pointer;text-decoration:none;display:block;
+  background:#e9e2d0;box-shadow:0 .6cqw 1.4cqw #000c;color:#16171c;text-align:center;filter:brightness(.82) sepia(.15);transition:filter .25s,transform .25s}
+.poster.pl{left:-22cqw;transform:rotate(-3deg)}
+.poster.pr{left:106cqw;transform:rotate(2.5deg);background:#f6c51e}
+.poster:hover,.poster:focus-visible{filter:none;transform:rotate(0) scale(1.04)}
+.poster img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;object-position:60% 25%;filter:grayscale(1) contrast(1.3)}
+.poster img.lg{aspect-ratio:1;object-fit:contain;filter:none;padding:1cqw}
+.poster b{display:block;margin-top:.8cqw;font:700 1.9cqw/1 'Space Mono',monospace;letter-spacing:.1em}
+.poster small{display:block;margin-top:.5cqw;font:700 .75cqw/1.3 'Space Mono',monospace;letter-spacing:.12em}
+.poster::before{content:"";position:absolute;inset:0;background:linear-gradient(170deg,#fff0 60%,#0002),repeating-linear-gradient(90deg,#0000 0 3cqw,#0000000d 3cqw 3.1cqw);pointer-events:none}
+.poster .glw{bottom:-1.4cqw}
+.sidewalk{width:100%;height:48px;margin-top:-1px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(#5a5c60,#3a3c40 18%,#2a2c2f),repeating-linear-gradient(90deg,#0000 0 160px,#1c1d20 160px 162px);background-blend-mode:multiply;box-shadow:inset 0 3px 0 #707378}
+/* objetos con los que se puede interactuar */
+.hs{z-index:10;padding:0;border:0;background:none;cursor:pointer;border-radius:.3cqw;transition:box-shadow .25s,background .25s}
+.hs:hover,.hs:focus-visible{background:#ffffff10;box-shadow:0 0 0 .15cqw #f6c51eaa,0 0 2.2cqw #f6c51e55}
+.hs.round{border-radius:50%}
+.hs .tg{position:absolute;left:50%;top:100%;margin-top:.5cqw;transform:translate(-50%,-4px);white-space:nowrap;pointer-events:none;
+  font:700 max(9px,.95cqw)/1 'Space Mono','Courier New',monospace;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:#050806e6;padding:.45cqw .7cqw;border-left:.3cqw solid #f6c51e;opacity:0;transition:opacity .2s,transform .2s;box-shadow:0 .3cqw .8cqw #000a}
+.hs .tg.up{top:auto;bottom:100%;margin:0 0 .5cqw}
+.hs:hover .tg,.hs:focus-visible .tg{opacity:1;transform:translate(-50%,0)}
+/* un brillo tenue que va recorriendo las cosas para que se note que se pueden tocar */
+.hs::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:0 0 1.6cqw #f6c51e66,inset 0 0 1cqw #f6c51e33;opacity:0;animation:ping 16s ease-in-out infinite;animation-delay:var(--pd,0s)}
+@keyframes ping{0%,88%,100%{opacity:0}92%{opacity:1}}
+
+/* postales con tus fotos */
+.card{border-radius:0;transform:rotate(var(--r));background:#f3f1ea;box-shadow:0 .4cqw .8cqw #0009;transition:transform .2s,box-shadow .25s,background .2s}
+.card img{position:absolute;left:4%;right:4%;top:5%;bottom:5%;width:92%;height:90%;object-fit:cover;filter:saturate(.92) contrast(1.05) brightness(.97)}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#bff5d814,#0a301a26);mix-blend-mode:multiply}
+.card .pin{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#c9ccd5);box-shadow:0 .1cqw .15cqw #0008;top:1.5%;z-index:2}
+.card .pin.a{left:2.5%}.card .pin.b{right:2.5%}
+.card:hover,.card:focus-visible{transform:rotate(0) scale(1.08);z-index:20;background:#fff}
+
+/* texto luminoso para saber dónde pinchar */
+.glw{position:absolute;left:50%;bottom:-.9cqw;transform:translateX(-50%);z-index:3;white-space:nowrap;pointer-events:none;
+  font:700 max(8px,1.02cqw)/1 'Space Mono','Courier New',monospace;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff8d6;background:#050806d9;padding:.4cqw .7cqw;border:1px solid #f6c51e88;border-radius:.2cqw;
+  text-shadow:0 0 .25cqw #fff,0 0 .6cqw #f6c51e,0 0 1.2cqw #ff9a2a;box-shadow:0 0 .8cqw #f6c51e55,inset 0 0 .5cqw #f6c51e22;animation:neonY 9s steps(1) infinite;animation-delay:var(--pd,0s)}
+.glw.t{--g:#20d6c8;color:#e6fffb;border-color:#20d6c888;text-shadow:0 0 .25cqw #fff,0 0 .6cqw #20d6c8,0 0 1.2cqw #20d6c8;box-shadow:0 0 .8cqw #20d6c855,inset 0 0 .5cqw #20d6c822;animation-name:neonT}
+@keyframes neonY{0%,100%{}55%{color:#5f5a48;text-shadow:none;box-shadow:none;border-color:#f6c51e22}56%{color:#fff8d6}57.5%{color:#5f5a48;text-shadow:none;box-shadow:none;border-color:#f6c51e22}59%{}
+  78%{color:#5f5a48;text-shadow:none;box-shadow:none;border-color:#f6c51e22}88%{}89%{color:#5f5a48;text-shadow:none;box-shadow:none}90%{}}
+@keyframes neonT{0%,100%{}55%{color:#3f5a55;text-shadow:none;box-shadow:none;border-color:#20d6c822}56%{color:#e6fffb}57.5%{color:#3f5a55;text-shadow:none;box-shadow:none;border-color:#20d6c822}59%{}
+  78%{color:#3f5a55;text-shadow:none;box-shadow:none;border-color:#20d6c822}88%{}89%{color:#3f5a55;text-shadow:none;box-shadow:none}90%{}}
+.hs:hover .glw,.hs:focus-visible .glw{background:#f6c51e;color:#050806;text-shadow:none}
+.hs .glw.up{bottom:auto;top:-1cqw;transform:translate(-50%,-100%)}
+/* pegatina de Deprerreo junto al cartel */
+.stk{z-index:15;border-radius:0;transform:rotate(11deg);transition:transform .2s}
+.stk img{display:block;width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(.18cqw 0 0 #fff) drop-shadow(-.18cqw 0 0 #fff) drop-shadow(0 .18cqw 0 #fff) drop-shadow(0 -.18cqw 0 #fff) drop-shadow(.2cqw .35cqw .3cqw #0009)}
+.stk:hover,.stk:focus-visible{transform:rotate(3deg) scale(1.1);background:none;box-shadow:none}
+.stk .glw{bottom:-1.6cqw}
+/* controlador DJ en lugar de los botes */
+.ctrl{z-index:6;filter:drop-shadow(0 .6cqw .6cqw #000c) saturate(.85) brightness(.9) blur(.25px)}
+.ctrl svg{display:block;width:100%;height:100%}
+.ctrl .jog{transform-box:fill-box;transform-origin:center}
+.stage.playing .ctrl .jog{animation:spin 1.8s linear infinite}
+.stage.playing .ctrl .jog.r{animation-duration:1.75s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ctrl .led{opacity:.35}
+.stage.playing .ctrl .led{animation:led .6s ease-in-out infinite alternate}
+.stage.playing .ctrl .led:nth-of-type(3n){animation-duration:.45s}
+.stage.playing .ctrl .led:nth-of-type(4n){animation-duration:.8s}
+@keyframes led{to{opacity:1}}
+.ctrl .pad{opacity:.55}
+.stage.playing .ctrl .pad{animation:pad 1.2s steps(1) infinite}
+.stage.playing .ctrl .pad:nth-of-type(odd){animation-delay:-.6s}
+@keyframes pad{50%{opacity:1}}
+
+.starb{z-index:7;pointer-events:none}
+.starb svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 .3cqw .4cqw #0007)}
+.starb text{font-family:'Permanent Marker','Comic Sans MS',cursive}
+
+/* de vez en cuando se toma una cerveza */
+.beer{position:absolute;inset:0;width:100%;height:100%;z-index:7;pointer-events:none}
+.beer .hd,.beer .arm{transform-box:view-box;transform-origin:0 0}
+.beer .hd{transform-origin:800px 575px;animation:hd 17s ease-in-out infinite}
+.beer .arm{animation:arm 17s ease-in-out infinite;filter:saturate(.85) brightness(.92)}
+@keyframes arm{0%,58%{transform:translate(880px,1180px) rotate(-4deg)}
+  66%{transform:translate(884px,770px) rotate(-6deg)}
+  72%{transform:translate(857px,612px) rotate(-25deg)}
+  80%{transform:translate(853px,606px) rotate(-33deg)}
+  86%{transform:translate(857px,612px) rotate(-25deg)}
+  92%{transform:translate(884px,790px) rotate(-6deg)}
+  100%{transform:translate(880px,1180px) rotate(-4deg)}}
+@keyframes hd{0%,70%,90%,100%{transform:none}75%,85%{transform:rotate(-3.5deg) translate(-3px,-7px)}}
+/* perritos que asienten con la música */
+.head{z-index:8;pointer-events:none;transform-origin:50% 92%}
+.head img{display:block;width:100%;height:100%}
+.stage.playing .head{animation:nod .5s ease-in-out infinite alternate}
+.stage.playing .head.pup{animation-duration:.42s;animation-delay:-.2s}
+@keyframes nod{from{transform:rotate(-3deg) translateY(0)}to{transform:rotate(3deg) translateY(1.5%)}}
+
+/* ranura = pantalla del reproductor; altavoz = play */
+.slot{z-index:9;display:grid;grid-template-columns:1fr auto auto;grid-template-rows:1fr auto;align-items:center;gap:.2cqw .8cqw;padding:.6cqw 1.1cqw 1.4cqw;cursor:pointer;border:0;
+  background:linear-gradient(#050b08,#0b1a12);box-shadow:inset 0 .2cqw .6cqw #000,0 0 0 .12cqw #4a4f58;border-radius:.2cqw;color:#9fe8c8;text-align:left}
+.slot .t{grid-column:1/-1;min-width:0;overflow:hidden;white-space:nowrap;font:400 2.5cqw/1 VT323,monospace;color:#a8f5d2;text-shadow:0 0 .6cqw #20d6c8aa}
+.slot .t span{display:inline-block;padding-left:100%;animation:marq 14s linear infinite}
+.stage:not(.playing) .slot .t span{padding-left:0;animation:none;opacity:.55}
+@keyframes marq{to{transform:translateX(-100%)}}
+.slot .tm{font:400 1.7cqw/1 VT323,monospace;color:#f6c51e}
+.slot .hint{font:700 max(8px,.75cqw)/1 'Space Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#4f7a68}
+.viz{display:flex;gap:2px;align-items:flex-end;height:1.6cqw}
+.viz i{width:.3cqw;height:15%;background:#20d6c8;opacity:.7}
+.viz.on i{animation:eq .5s ease-in-out infinite alternate}
+.viz.on i:nth-child(2n){animation-duration:.35s}.viz.on i:nth-child(3n){animation-duration:.7s}
+@keyframes eq{to{height:100%}}
+.spk{z-index:9}
+.spk::after{content:"";position:absolute;inset:-12%;border-radius:50%;border:.15cqw solid #20d6c8;opacity:0;pointer-events:none}
+.stage.playing .spk::after{animation:wave 1.4s ease-out infinite}
+@keyframes wave{from{opacity:.8;transform:scale(.8)}to{opacity:0;transform:scale(1.5)}}
+
+/* controles: solo aparecen cuando suena o abres la lista */
+.ctl{position:absolute;z-index:12;display:flex;align-items:center;gap:.7cqw;opacity:0;pointer-events:none;transform:translateY(.6cqw);transition:opacity .3s,transform .3s}
+.stage.playing .ctl,.stage.list .ctl{opacity:1;pointer-events:auto;transform:none}
+.ctl.l{left:5.5%;top:88.6%;height:4.6%}
+.ctl.r{right:3%;top:88.6%;height:4.6%}
+.ctl .b{width:3cqw;height:3cqw;min-width:26px;min-height:26px;border-radius:50%;border:1px solid #2a2d35;background:radial-gradient(circle at 50% 30%,#f2f3f6,#b7bac4 50%,#7d818c);box-shadow:0 .2cqw .4cqw #000a;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.ctl .b svg{width:40%;height:40%;fill:#15171c}
+.ctl .b.play{width:3.6cqw;height:3.6cqw}
+.pill{font:700 max(9px,.85cqw)/1 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#dfeee6;background:#050806e6;border:1px solid #3a3f48;padding:.6cqw .9cqw;cursor:pointer;min-height:24px}
+.pill[aria-selected="true"]{color:#050806;background:#f6c51e;border-color:#f6c51e}
+.tabs{display:flex;gap:3px}
+.vol{display:flex;align-items:center;gap:4px;color:#f6c51e;font-size:12px;background:#050806e6;padding:0 .8cqw;height:100%;border:1px solid #3a3f48}
+.vol input{width:7cqw;accent-color:#f6c51e}
+.seek{position:absolute;left:41.6%;width:17.8%;top:95.2%;z-index:12;height:.6cqw;margin:0;accent-color:#20d6c8;opacity:0;transition:opacity .3s}
+.stage.playing .seek{opacity:1}
+
+.mpPanel{position:absolute;left:30%;width:40%;bottom:12.5%;z-index:30;max-height:0;overflow:hidden;transition:max-height .3s;background:#050806f2;border:0 solid #20d6c855;backdrop-filter:blur(6px)}
+.stage.list .mpPanel{max-height:46%;overflow:auto;border-width:1px}
+.mpPanel .inner{padding:10px}
+.listbox{max-height:180px;overflow:auto;border:1px solid #1d3a30}
+.songs{list-style:none;margin:0;padding:0}
+.songs li{padding:6px 10px;border-bottom:1px solid #0f1f18;font-size:12px}
+.songs li.active{background:#0f2a20}
+.songs .tt{display:flex;justify-content:space-between;gap:6px}
+.songs .tt button{font:700 12px 'Space Mono',monospace;color:#e9f7ef;background:none;border:0;padding:0;cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.songs .pl,.songs .info,.songs .ac{font-size:11px;color:#8fb3a3}
+.songs .ac a,.songs .ac button{font:11px Verdana,sans-serif;color:#f6c51e;background:none;border:0;padding:0 2px;cursor:pointer}
+.scframe{width:100%;height:110px;margin-top:8px;border:1px solid #1d3a30;display:block;background:#000}
+.offline{display:none;font-size:12px;margin-top:4px;color:#f6c51e}
+.localtip{background:#0f1f18;color:#dfeee6;border:1px solid #1d3a30;padding:6px 8px;font-size:11px;line-height:1.5;margin-top:8px}
+
+/* secciones: aparecen como un cristal oscuro dentro del escaparate */
+.pane{position:absolute;left:12%;right:20%;top:17%;max-height:66%;z-index:35;display:none;flex-direction:column;background:#030806e8;backdrop-filter:blur(8px);border:1px solid #20d6c844;box-shadow:0 0 0 1px #000,0 2cqw 5cqw #000c}
+.stage.open .pane{display:flex;animation:fade .35s ease-out}
+@keyframes fade{from{opacity:0;filter:blur(6px)}}
+.phead{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #20d6c833}
+.phead h2{margin:0 auto 0 0;font:700 15px/1 'Space Mono',monospace;letter-spacing:.3em;text-transform:uppercase;color:#f6c51e}
+.phead h2::before{content:"— ";color:#20d6c8}
+.close{font:700 11px 'Space Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:#dfeee6;background:none;border:1px solid #3a3f48;padding:8px 12px;cursor:pointer;min-height:34px}
+.close:hover{border-color:#f6c51e;color:#f6c51e}
+.pbody{flex:1;overflow:auto}
+.panel{display:none;padding:18px 20px 22px}
+.panel.on{display:block}
+.panel p{margin:0 0 10px}
+.shows{width:100%;border-collapse:collapse}
+.shows td{padding:8px 6px;border-bottom:1px solid #12251d;vertical-align:top}
+.shows td:first-child{font:700 12px/1.6 'Space Mono',monospace;color:#20d6c8;white-space:nowrap;width:108px}
+.yt{width:100%;aspect-ratio:16/9;border:1px solid #1d3a30;display:block;background:#000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-block;font:700 11px/1 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#050806;background:#f6c51e;border:0;padding:9px 12px;text-decoration:none;cursor:pointer}
+.chip:hover{background:#fff;color:#050806}
+.drv{background:#e9ece9;border:1px solid #23463a;padding:2px}
+.dframe{display:block;width:100%;height:min(52vh,460px);border:0;background:#fff}
+.hint2{font:700 11px/1.4 'Space Mono',monospace;letter-spacing:.08em;color:#8fb3a3;margin:0 0 10px!important}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.row3 img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.9)}
+.row3 img:hover{filter:none}
+.ul{margin:0;padding-left:18px}
+.ul li{margin:0 0 6px}
+.ul li::marker{color:#f6c51e}
+.rider{font:700 14px/2 'Space Mono',monospace;color:#e9f7ef;text-align:center;letter-spacing:.06em}
+.frm label{display:block;font:700 10px 'Space Mono',monospace;letter-spacing:.14em;color:#20d6c8;text-transform:uppercase;margin:10px 0 4px}
+.frm input,.frm select,.frm textarea{width:100%;font:14px Verdana,sans-serif;color:#fff;background:#000;border:1px solid #23463a;padding:9px;min-height:40px}
+.frm textarea{min-height:86px;resize:vertical}
+.frm input:focus,.frm select:focus,.frm textarea:focus{border-color:#f6c51e;outline:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.err{color:#ff7a6b;margin:8px 0 0}
+.ok{color:#f6c51e;margin-top:8px}
+
+/* menú de texto (solo en pantallas pequeñas) */
+.mnav{display:none;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px;max-width:100%}
+.mnav button,.mnav a{font:700 11px/1 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#dfeee6;background:#0a120e;border:1px solid #23463a;padding:10px 12px;text-decoration:none;cursor:pointer}
+.foot{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;margin:0;font:700 10px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.foot a{color:#9fb5aa;text-decoration:none}
+.foot a:hover{color:#f6c51e}
+
+/* entrada */
+.enter{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;background:#020403f0}
+.enter.gone{display:none}
+.enter button{display:flex;flex-direction:column;align-items:center;gap:16px;background:none;border:0;cursor:pointer;color:#dfeee6}
+.enter .sg{font:700 clamp(18px,3vw,26px)/1 'Space Mono',monospace;letter-spacing:.35em;color:#f6c51e;border:1px solid #f6c51e66;padding:16px 26px 16px 34px;box-shadow:0 0 30px #f6c51e22}
+.enter small{font:700 11px 'Space Mono',monospace;letter-spacing:.3em;text-transform:uppercase;color:#6f8f80;animation:blink 2s steps(1) infinite}
+@keyframes blink{50%{opacity:.3}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#050806;border:1px solid #f6c51e;color:#dfeee6;padding:8px 12px;font-size:13px;display:none;z-index:90}
+
+@media (hover:none){
+  .hs .tg{opacity:.85;transform:translate(-50%,0);font-size:max(8px,1.5cqw);padding:.6cqw .9cqw}
+}
+@media (max-width:760px){
+  .glw{font-size:1.7cqw;padding:.5cqw .8cqw;letter-spacing:.08em}
+  .wrap{padding:8px 0 14px;justify-content:flex-start}
+  .stage{width:100%;box-shadow:none}
+  .mnav{display:flex;padding:12px 8px 0}
+  .ext,.poster{display:none}
+  .sidewalk{height:auto;padding:10px 0;background:none;box-shadow:none}
+  .pane{position:fixed;left:0;right:0;top:0;bottom:0;max-height:none;z-index:60;border:0}
+  .hs .tg,.slot .hint{display:none!important}
+  .slot .t{font-size:3.4cqw}
+  .mpPanel{position:fixed;left:8px;right:8px;width:auto;bottom:12px;z-index:60}
+  .stage.list .mpPanel{max-height:70vh}
+  .ctl .pill,.vol{display:none}
+  .ctl.l{left:2%;gap:1.4cqw}
+  .ctl .b{width:5cqw;height:5cqw;min-width:22px;min-height:22px}.ctl .b.play{width:6cqw;height:6cqw}
+  .two{grid-template-columns:1fr}
+  .row3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dframe{height:60vh}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.beer .arm{display:none}}
+</style>
+</head>
+<body>
+<div class="enter" id="enter">
+  <button type="button" id="enterBtn"><span class="sg">L'MIRANDA</span><small>▶ entrar · con sonido</small></button>
+</div>
+
+<div class="wrap">
+  <main class="stage" id="stage">
+    <div class="ext" aria-hidden="true">
+      <div class="fas"></div><div class="wall"></div><div class="shade"></div>
+      <div class="pipe"></div>
+      <div class="lamp l"></div><div class="lamp r"></div>
+    </div>
+    <button class="poster pl" type="button" data-p="p-shows" aria-label="Shows"><img src="__RAZZ__" alt="" style="object-position:40% 30%"><b>L'MIRANDA</b><small>DJ SET · BCN · BERLÍN · PARÍS</small><span class="glw">shows</span></button>
+    <a class="poster pr" href="https://www.instagram.com/pondeprerreo/" target="_blank" rel="noopener" aria-label="Deprerreo en Instagram"><img src="__LOGO__" alt="" class="lg"><b>DEPRERREO</b><small>PERREO TRISTE · BARCELONA</small><span class="glw">deprerreo ↗</span></a>
+    <img class="bgimg" src="__SHOP__" alt="Escaparate de la tienda L'Miranda: L'Miranda con sudadera negra detrás del mostrador, postales en las paredes, un controlador DJ y dos perritos de juguete">
+    <span class="at flk" style="--x:50%;--y:12%;--w:40%;--h:14%" aria-hidden="true"></span>
+
+    <div class="at ctrl" style="--x:9.375%;--y:65.27%;--w:25.625%;--h:19.08%" aria-hidden="true">__CTRL__</div>
+    <div class="at starb" style="--x:9.69%;--y:51.46%;--w:12.94%;--h:13.97%" aria-hidden="true">__STAR1__</div>
+    <div class="at starb" style="--x:26.1%;--y:53.6%;--w:13.7%;--h:16.4%" aria-hidden="true">__STAR2__</div>
+    __BEER__
+    <div class="at head" style="--x:49.06%;--y:67.78%;--w:10%;--h:8.37%" aria-hidden="true"><img src="__DOG__" alt=""></div>
+    <div class="at head pup" style="--x:43.75%;--y:74.48%;--w:6.5625%;--h:5.27%" aria-hidden="true"><img src="__PUP__" alt=""></div>
+
+    <a class="at hs stk" href="https://www.instagram.com/pondeprerreo/" target="_blank" rel="noopener" aria-label="Deprerreo en Instagram" style="--x:67.3%;--y:3.2%;--w:7.2%;--h:9.6%;--pd:-6.5s"><img src="__LOGO__" alt=""><span class="glw" aria-hidden="true">deprerreo ↗</span></a>
+    __HOTSPOTS__
+
+    <button class="at slot" type="button" id="listBtn" aria-expanded="false" aria-controls="mpPanel" style="--x:40.75%;--y:89.2%;--w:19.44%;--h:7.9%">
+      <span class="t"><span id="pTitle">· · · dale play al altavoz · · ·</span></span>
+      <span class="hint" aria-hidden="true">lista ▴</span><span class="viz" id="viz" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="tm" id="pTime">00:00</span>
+      <span class="sr"><span id="pArtist">L'Miranda</span><span id="pState"></span><span id="pTrackNo"></span><span id="nTracks"></span></span>
+    </button>
+    <label class="sr" for="seek">Posición</label><input class="seek" id="seek" type="range" min="0" max="1000" value="0">
+    <button class="at hs round spk" type="button" id="bPlay" aria-label="Reproducir" style="--x:63.88%;--y:89.71%;--w:4.88%;--h:6.53%;--pd:-2s"><svg id="icoPlay" class="sr" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 0l12 7-12 7z"/></svg><span class="glw t up" id="spkTag">▶ play</span></button>
+
+    <div class="ctl l">
+      <button class="b" type="button" id="bPrev" aria-label="Anterior"><svg viewBox="0 0 14 12" aria-hidden="true"><rect width="2.5" height="12"/><path d="M14 0L3 6l11 6z"/></svg></button>
+      <button class="b play" type="button" id="bPlay2" aria-label="Reproducir o pausar"><svg id="ico2" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 0l12 7-12 7z"/></svg></button>
+      <button class="b" type="button" id="bNext" aria-label="Siguiente"><svg viewBox="0 0 14 12" aria-hidden="true"><rect x="11.5" width="2.5" height="12"/><path d="M0 0l11 6-11 6z"/></svg></button>
+      <button class="b" type="button" id="bStop" aria-label="Parar"><svg viewBox="0 0 11 11" aria-hidden="true"><rect width="11" height="11"/></svg></button>
+      <div class="tabs" role="tablist" aria-label="Qué escuchar">
+        <button class="pill" type="button" role="tab" id="tabProd" aria-selected="true">Produced</button>
+        <button class="pill" type="button" role="tab" id="tabMix" aria-selected="false">Mixes</button>
+      </div>
+    </div>
+    <div class="ctl r">
+      <span class="vol"><label class="sr" for="vol">Volumen</label>♪<input id="vol" type="range" min="0" max="100" value="80"></span>
+      <button class="pill" type="button" id="listBtn2">lista</button>
+    </div>
+    <span id="artImg" hidden></span>
+
+    <div class="mpPanel" id="mpPanel"><div class="inner">
+      <div class="listbox"><ul class="songs" id="plist" aria-label="Temas"></ul></div>
+      <div class="localtip" id="localTip" hidden><b>Solo lo ves tú:</b> abierta desde tu ordenador, algunos botones no conectan. Subida a internet funciona todo.</div>
+      <iframe id="sc" class="scframe" title="Reproductor de SoundCloud de L'Miranda" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/l-miranda999/sets/produced-by-lmiranda&amp;color=%23f6c51e&amp;auto_play=true&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=false&amp;visual=false"></iframe>
+      <div class="offline" id="offline">Si los botones no responden, dale al play en el reproductor de arriba.</div>
+    </div></div>
+
+    <section class="pane" id="pane" aria-labelledby="sTitle">
+      <div class="phead"><h2 id="sTitle">shows</h2><button class="close" type="button" id="backBtn">✕ cerrar</button></div>
+      <div class="pbody">
+__PANELS__
+      </div>
+    </section>
+  </main>
+
+  <nav class="mnav" aria-label="Secciones">
+    <button type="button" data-music="prod">Música</button><button type="button" data-music="mix">Mixes</button>
+    <button type="button" data-p="p-shows">Shows</button><button type="button" data-p="p-vid">Vídeos</button>
+    <button type="button" data-p="p-fotos">Fotos</button><button type="button" data-p="p-bio">Sobre mí</button>
+    <button type="button" data-p="p-press">Prensa</button><button type="button" data-p="p-rider">Rider</button>
+    <button type="button" data-p="p-book">Booking</button><a href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener">Spotify ↗</a>
+  </nav>
+  <div class="sidewalk"><nav class="foot" aria-label="Enlaces">
+    <a href="__IG_URL__" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://soundcloud.com/l-miranda999" target="_blank" rel="noopener">SoundCloud</a>
+    <a href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener">Spotify</a>
+    <a href="__DRIVE_FOTOS__" target="_blank" rel="noopener">Descargas</a>
+    <a href="mailto:__BOOKING_EMAIL__">__BOOKING_EMAIL__</a>
+  </nav></div>
+</div>
+<div id="toast" role="status"></div>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+window.AUTO_PLAY = true;
+const BOOKING_EMAIL = '__BOOKING_EMAIL__';
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast = (m) => { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 2400); };
+const stage = $('#stage');
+
+const setPanel = (o) => { stage.classList.toggle('list', o); $('#listBtn').setAttribute('aria-expanded', o); };
+$('#listBtn').addEventListener('click', () => setPanel(!stage.classList.contains('list')));
+$('#listBtn2').addEventListener('click', () => setPanel(!stage.classList.contains('list')));
+window.showMusic = () => setPanel(true);
+
+/* secciones */
+let lastBtn = null;
+const show = (id, from) => {
+  const yt = $('#ytf');
+  if (!id) { stage.classList.remove('open'); yt.removeAttribute('src'); if (lastBtn) lastBtn.focus({preventScroll:true}); return; }
+  const p = document.getElementById(id); if (!p) return;
+  lastBtn = from || null;
+  document.querySelectorAll('.panel').forEach(x => x.classList.toggle('on', x === p));
+  $('#sTitle').textContent = p.dataset.t;
+  if (id === 'p-vid') { if (!yt.src) yt.src = yt.dataset.src; } else yt.removeAttribute('src');
+  p.querySelectorAll('.dframe').forEach(f => { if (!f.src) f.src = f.dataset.src; });
+  setPanel(false); stage.classList.add('open');
+  $('.pbody').scrollTop = 0; $('#backBtn').focus({preventScroll:true});
+};
+$('#backBtn').addEventListener('click', () => show(null));
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#enter').classList.contains('gone')) { show(null); setPanel(false); } });
+document.addEventListener('click', (e) => {
+  const p = e.target.closest('[data-p]'); if (p) { show(p.dataset.p, p); return; }
+  const m = e.target.closest('[data-music]'); if (m) { show(null); setPanel(true); (m.dataset.music === 'mix' ? $('#tabMix') : $('#tabProd')).click(); }
+  const t = e.target.closest('[data-toggle]'); if (t) $('#bPlay').click();
+});
+$('#bPlay2').addEventListener('click', () => $('#bPlay').click());
+
+/* entrar con sonido */
+const enter = () => { $('#enter').classList.add('gone'); if (window.lmPlay) window.lmPlay(); };
+$('#enterBtn').addEventListener('click', enter);
+addEventListener('keydown', (e) => { if (!$('#enter').classList.contains('gone') && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')) enter(); });
+setTimeout(() => { if ($('#offline').style.display === 'block') setPanel(true); }, 9500);
+
+/* cuando suena: los platos giran, los perritos asienten y aparecen los controles */
+new MutationObserver(() => {
+  const on = $('#viz').classList.contains('on');
+  stage.classList.toggle('playing', on);
+  $('#spkTag').textContent = on ? '❚❚ pausa' : '▶ play';
+  $('#ico2').innerHTML = on ? '<rect x="2" y="0" width="3.5" height="14"/><rect x="8.5" y="0" width="3.5" height="14"/>' : '<path d="M2 0l12 7-12 7z"/>';
+}).observe($('#viz'), {attributes:true, attributeFilter:['class']});
+
+/* booking */
+$('#bookForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const v = Object.fromEntries(new FormData(e.currentTarget).entries()), err = $('#bookErr'), ok = $('#bookOk');
+  let m = '';
+  if (!v.name.trim()) m = 'Falta tu nombre.';
+  else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email.trim())) m = 'Revisa el email.';
+  else if (!v.msg.trim()) m = 'Escribe un mensaje.';
+  err.hidden = !m; err.textContent = m; ok.hidden = true; if (m) return;
+  const subject = 'Booking L\'Miranda – ' + v.type + (v.date ? ' – ' + v.date : '');
+  const body = 'Nombre: '+v.name+'\nEmail: '+v.email+'\nTipo: '+v.type+'\nFecha y ciudad: '+v.date+'\n\n'+v.msg;
+  location.href = 'mailto:' + BOOKING_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  ok.hidden = false; ok.textContent = 'Se ha abierto tu correo. Si no, escribe a ' + BOOKING_EMAIL + '.';
+});
+
+/*PLAYER*/
+</script>
+</body>
+</html>
