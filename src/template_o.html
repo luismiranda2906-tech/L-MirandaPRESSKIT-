@@ -452,18 +452,34 @@ $('#bookForm').addEventListener('submit', (e) => {
   ok.hidden = false; ok.textContent = 'Se ha abierto tu correo. Si no, escribe a ' + BOOKING_EMAIL + '.';
 });
 
-/* galería: todo junto en cuadrícula y visor grande */
+/* galería: todo junto en cuadrícula y visor grande; se actualiza sola desde Drive */
 (function(){
-  const lb = $('#lbx'), st = $('#lbStage'); let list = [], idx = 0, kind = 'fotos', from = null;
-  const draw = () => {
-    const id = list[idx];
-    st.innerHTML = kind === 'videos'
-      ? '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen title="Vídeo"></iframe>'
-      : '<img src="https://drive.google.com/thumbnail?id=' + id + '&sz=w1800" alt="Foto ' + (idx + 1) + '">';
-    $('#lbDl').href = 'https://drive.google.com/uc?export=download&id=' + id;
-    $('#lbCnt').textContent = (kind === 'videos' ? 'vídeo ' : 'foto ') + (idx + 1) + ' / ' + list.length;
+  const KEY = '__DRIVE_KEY__';
+  const FOLDERS = {fotos: '1-zXdux3NVXg0APTMoxG6T4v7MVquMrON', videos: '1HcD8o-i_sStxpM09HUEj9DMKFLajxro5'};
+  const lb = $('#lbx'), st = $('#lbStage'); let list = [], idx = 0, from = null;
+  const thumb = (id, w) => 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + w;
+  const tile = (f, kind, i) => '<button type="button" class="gi' + (f.v ? ' v' : '') + '" data-g="' + kind + '" data-i="' + i + '" data-id="' + f.id + '"' + (f.v ? ' data-v="1"' : '') + ' aria-label="' + (f.v ? 'Vídeo ' : 'Foto ') + (i + 1) + '"><img loading="lazy" src="' + thumb(f.id, 400) + '" alt=""></button>';
+  const refresh = async (kind) => {
+    if (!KEY || KEY.indexOf('__') === 0) return;
+    try {
+      const q = encodeURIComponent("'" + FOLDERS[kind] + "' in parents and trashed = false");
+      const r = await fetch('https://www.googleapis.com/drive/v3/files?q=' + q + '&fields=files(id,mimeType)&orderBy=createdTime desc&pageSize=300&key=' + KEY);
+      if (!r.ok) return;
+      const files = ((await r.json()).files || []).filter(f => /^(image|video)\//.test(f.mimeType)).map(f => ({id: f.id, v: f.mimeType.indexOf('video') === 0}));
+      const g = document.querySelector('#p-' + (kind === 'fotos' ? 'fotos' : 'vid') + ' .gal');
+      if (g && files.length) g.innerHTML = files.map((f, i) => tile(f, kind, i)).join('');
+    } catch (e) {}
   };
-  const open = (b) => { kind = b.dataset.g; list = [...document.querySelectorAll('.gi[data-g="' + kind + '"]')].map(x => x.dataset.id); idx = +b.dataset.i; from = b; draw(); lb.classList.add('on'); $('#lbX').focus(); };
+  refresh('fotos'); refresh('videos');
+  const draw = () => {
+    const f = list[idx];
+    st.innerHTML = f.v
+      ? '<iframe src="https://drive.google.com/file/d/' + f.id + '/preview" allow="autoplay; fullscreen" allowfullscreen title="Vídeo"></iframe>'
+      : '<img src="' + thumb(f.id, 1800) + '" alt="Foto ' + (idx + 1) + '">';
+    $('#lbDl').href = 'https://drive.google.com/uc?export=download&id=' + f.id;
+    $('#lbCnt').textContent = (f.v ? 'vídeo ' : 'foto ') + (idx + 1) + ' / ' + list.length;
+  };
+  const open = (b) => { const g = b.closest('.gal'); list = [...g.querySelectorAll('.gi')].map(x => ({id: x.dataset.id, v: !!x.dataset.v})); idx = +b.dataset.i; from = b; draw(); lb.classList.add('on'); $('#lbX').focus(); };
   const close = () => { lb.classList.remove('on'); st.innerHTML = ''; if (from) from.focus(); };
   const go = (d) => { idx = (idx + d + list.length) % list.length; draw(); };
   document.addEventListener('click', (e) => { const b = e.target.closest('.gi'); if (b) open(b); });

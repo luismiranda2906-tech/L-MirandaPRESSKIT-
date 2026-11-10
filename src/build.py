@@ -91,9 +91,12 @@ P = re.sub(r'<section class="panel" id="p-vid".*?</section>', """<section class=
       </section>""", P, count=1, flags=re.S)
 G = json.load(open('gallery.json'))
 def gal(ids, kind):
-    return '<div class="gal">' + ''.join('<button type="button" class="gi%s" data-g="%s" data-i="%d" data-id="%s" aria-label="%s %d"><img loading="lazy" src="https://drive.google.com/thumbnail?id=%s&amp;sz=w400" alt=""></button>' % (' v' if kind == 'videos' else '', kind, i, fid, 'Vídeo' if kind == 'videos' else 'Foto', i + 1, fid) for i, fid in enumerate(ids)) + '</div>'
+    return '<div class="gal">' + ''.join('<button type="button" class="gi%s" data-g="%s" data-i="%d" data-id="%s" aria-label="%s %d"><img loading="lazy" src="https://drive.google.com/thumbnail?id=%s&amp;sz=w400" alt=""></button>' % (' v" data-v="1' if kind == 'videos' else '', kind, i, fid, 'Vídeo' if kind == 'videos' else 'Foto', i + 1, fid) for i, fid in enumerate(ids)) + '</div>'
 P = P.replace('__GAL_FOTOS__', gal(G['fotos'], 'fotos')).replace('__GAL_VIDEOS__', gal(G['videos'], 'videos'))
 s = s.replace('__PANELS__', P)
+import os
+KEYF = 'drive_key.txt'
+s = s.replace('__DRIVE_KEY__', open(KEYF).read().strip() if os.path.exists(KEYF) else '')
 s = s.replace('/*PLAYER*/', open('player.js', encoding='utf-8').read())
 s = s.replace("color=%23ff3399", "color=%23f6c51e").replace("color:'#ff3399'", "color:'#f6c51e'")
 from PIL import Image
