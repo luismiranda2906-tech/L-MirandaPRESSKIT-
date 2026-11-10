@@ -40,9 +40,9 @@ def card(box, deg, grow=1.05):
     W=(bw*c-bh*sn)/d*grow; H=(bh*c-bw*sn)/d*grow; cx,cy=(x0+x1)/2,(y0+y1)/2
     return '--x:%.2f%%;--y:%.2f%%;--w:%.2f%%;--h:%.2f%%;--r:%sdeg' % ((cx-W/2)/16,(cy-H/2)/11.95,W/16,H/11.95,deg)
 CARDS = [
- ('data-p="p-bio"', 'Sobre mí', (135, 216, 282, 334), -10, '__PFP__', '50% 40%'),
+ ('data-p="p-press"', 'Prensa', (135, 216, 282, 334), -10, '__PFP__', '50% 40%'),
  ('data-p="p-shows"', 'Shows', (306, 288, 407, 434), 7, '__RAZZ__', '40% 30%'),
- ('data-p="p-press"', 'Prensa', (470, 205, 607, 319), 3, '__COVER__', '62% 28%'),
+ ('href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener"', 'Spotify', (470, 205, 607, 319), 3, '__COVER__', '62% 28%'),
  ('data-p="p-rider"', 'Rider', (160, 523, 298, 620), -1.5, '__PHOTO__', '45% 45%'),
  ('data-p="p-fotos"', 'Fotos', (830, 243, 972, 354), -3.5, '__FURRY__', '50% 30%'),
  ('data-p="p-vid"', 'Vídeos', (1046, 223, 1140, 364), 2, '__WOLVES__', '50% 30%'),

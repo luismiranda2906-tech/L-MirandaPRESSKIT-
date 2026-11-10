@@ -90,6 +90,21 @@ button{font-family:inherit}
   filter:drop-shadow(.18cqw 0 0 #fff) drop-shadow(-.18cqw 0 0 #fff) drop-shadow(0 .18cqw 0 #fff) drop-shadow(0 -.18cqw 0 #fff) drop-shadow(.2cqw .35cqw .3cqw #0009)}
 .stk:hover,.stk:focus-visible{transform:rotate(3deg) scale(1.1);background:none;box-shadow:none}
 .stk .glw{bottom:-1.6cqw}
+/* periódico en el estante = BIO */
+.news{z-index:11;border-radius:0;transform:rotate(-5deg);transform-origin:50% 100%;transition:transform .2s}
+.news .np{position:absolute;inset:0;display:flex;flex-direction:column;gap:.25cqw;padding:.45cqw .5cqw;background:linear-gradient(170deg,#f1ecdc,#d9d2bd);box-shadow:.25cqw .35cqw .5cqw #000a,inset 0 0 1cqw #0002;color:#1a1b1f;overflow:hidden;filter:brightness(.88) saturate(.85)}
+.news .np::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0000 48%,#0000001a 50%,#0000 52%);pointer-events:none}
+.news b{display:block;font:900 2.3cqw/.9 'Times New Roman',Georgia,serif;letter-spacing:.12em;text-align:center;border-bottom:.12cqw solid #1a1b1f;padding-bottom:.2cqw}
+.news i{display:block;font:700 max(5px,.42cqw)/1 'Space Mono',monospace;letter-spacing:.06em;text-align:center;font-style:normal;border-bottom:.08cqw solid #1a1b1f;padding-bottom:.2cqw}
+.news .hl{display:block;font:900 max(6px,.62cqw)/1.05 'Times New Roman',serif;text-align:center}
+.news .cols{flex:1;min-height:0;display:flex;gap:.3cqw}
+.news .cols img{width:48%;height:100%;object-fit:cover;object-position:50% 25%;filter:grayscale(1) contrast(1.2)}
+.news .cols>span{flex:1;display:flex;flex-direction:column;gap:.28cqw;padding-top:.1cqw}
+.news .cols u{display:block;height:.22cqw;background:#55565c;opacity:.6}
+.news .cols u:nth-child(odd){width:85%}
+.news:hover,.news:focus-visible{transform:rotate(0) scale(1.12);background:none;box-shadow:none}
+.news:hover .np{filter:none}
+.news .glw.up{top:-1.2cqw}
 /* controlador DJ en lugar de los botes */
 .ctrl{z-index:6;filter:drop-shadow(0 .6cqw .6cqw #000c) saturate(.85) brightness(.9) blur(.25px)}
 .ctrl svg{display:block;width:100%;height:100%}
@@ -285,6 +300,10 @@ button{font-family:inherit}
     <div class="at head pup" style="--x:43.75%;--y:74.48%;--w:6.5625%;--h:5.27%" aria-hidden="true"><img src="__PUP__" alt=""></div>
 
     <a class="at hs stk" href="https://www.instagram.com/pondeprerreo/" target="_blank" rel="noopener" aria-label="Deprerreo en Instagram" style="--x:67.3%;--y:3.2%;--w:7.2%;--h:9.6%;--pd:-6.5s"><img src="__LOGO__" alt=""><span class="glw" aria-hidden="true">deprerreo ↗</span></a>
+<button class="at hs news" type="button" data-p="p-bio" aria-label="Bio" style="--x:19.4%;--y:41.2%;--w:8.2%;--h:10.2%;--pd:-3.2s">
+      <span class="np"><b>BIO</b><i>EL DIARIO DE L'MIRANDA · BCN</i><span class="hl">«PERREO, CLUB Y EMOCIÓN»</span><span class="cols"><img src="__SERV__" alt=""><span><u></u><u></u><u></u><u></u><u></u></span></span></span>
+      <span class="glw up">bio</span>
+    </button>
     __HOTSPOTS__
 
     <button class="at slot" type="button" id="listBtn" aria-expanded="false" aria-controls="mpPanel" style="--x:40.75%;--y:89.2%;--w:19.44%;--h:7.9%">
@@ -330,7 +349,7 @@ __PANELS__
   <nav class="mnav" aria-label="Secciones">
     <button type="button" data-music="prod">Música</button><button type="button" data-music="mix">Mixes</button>
     <button type="button" data-p="p-shows">Shows</button><button type="button" data-p="p-vid">Vídeos</button>
-    <button type="button" data-p="p-fotos">Fotos</button><button type="button" data-p="p-bio">Sobre mí</button>
+    <button type="button" data-p="p-fotos">Fotos</button><button type="button" data-p="p-bio">Bio</button>
     <button type="button" data-p="p-press">Prensa</button><button type="button" data-p="p-rider">Rider</button>
     <button type="button" data-p="p-book">Booking</button><a href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener">Spotify ↗</a>
   </nav>
