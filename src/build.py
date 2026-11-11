@@ -1,6 +1,6 @@
 import re, base64, json
 from ctrl import ctrl
-BEER = '''<svg class="beer" viewBox="0 0 1600 1195" aria-hidden="true">
+BEER = '''<svg class="beer" viewBox="0 0 1600 1195" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
         <clipPath id="occ"><rect x="560" y="982" width="600" height="213"/></clipPath>
         <linearGradient id="amb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a1a04"/><stop offset=".35" stop-color="#8a4a10"/><stop offset=".55" stop-color="#c47a26"/><stop offset="1" stop-color="#2a1203"/></linearGradient>
@@ -93,6 +93,29 @@ G = json.load(open('gallery.json'))
 def gal(ids, kind):
     return '<div class="gal">' + ''.join('<button type="button" class="gi%s" data-g="%s" data-i="%d" data-id="%s" aria-label="%s %d"><img loading="lazy" src="https://drive.google.com/thumbnail?id=%s&amp;sz=w400" alt=""></button>' % (' v" data-v="1' if kind == 'videos' else '', kind, i, fid, 'Vídeo' if kind == 'videos' else 'Foto', i + 1, fid) for i, fid in enumerate(ids)) + '</div>'
 P = P.replace('__GAL_FOTOS__', gal(G['fotos'], 'fotos')).replace('__GAL_VIDEOS__', gal(G['videos'], 'videos'))
+
+o_star = open('stars.txt').read().split('\n')[0]
+AN = [
+ ('button','data-p="p-bio"','Bio','paper','__SERV__',-3),
+ ('button','data-music="prod"','Música','star','',4),
+ ('button','data-p="p-shows"','Shows','','__RAZZ__',3),
+ ('button','data-p="p-press"','Prensa','','__PFP__',-4),
+ ('button','data-p="p-rider"','Rider','','__PHOTO__',-2),
+ ('a','href="https://soundcloud.com/l-miranda999" target="_blank" rel="noopener"','SoundCloud ↗','','__HOW__',4),
+ ('a','href="__DRIVE_FOTOS__" target="_blank" rel="noopener"','Descargas ↗','','__YIN__',-3),
+ ('a','href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener"','Spotify ↗','','__COVER__',2),
+]
+ah = []
+for tag, at, lab, kind, img, r in AN:
+    typ = ' type="button"' if tag == 'button' else ''
+    if kind == 'paper':
+        inner = '<b>BIO</b><i>EL DIARIO DE L\'MIRANDA · BCN</i><img src="%s" alt="">' % img
+    elif kind == 'star':
+        inner = '<svg viewBox="0 0 206 166" aria-hidden="true"><polygon points="%s" fill="#ff7a1a"/><g transform="rotate(-14 103 83)" fill="#2a1640" text-anchor="middle" font-family="Permanent Marker,Comic Sans MS,cursive"><text x="103" y="78" font-size="25">SPECIAL</text><text x="106" y="108" font-size="25">TRACKS</text></g></svg>' % o_star
+    else:
+        inner = '<img src="%s" alt="">' % img
+    ah.append('<%s class="acard %s"%s %s style="--r:%sdeg" aria-label="%s">%s<span class="glw" aria-hidden="true">%s</span></%s>' % (tag, kind, typ, at, r, lab.replace(' ↗',''), inner, lab, tag))
+s = s.replace('__ANNEX__', ''.join(ah))
 s = s.replace('__PANELS__', P)
 import os
 KEYF = 'drive_key.txt'

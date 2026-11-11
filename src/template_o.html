@@ -52,6 +52,28 @@ button{font-family:inherit}
 .poster .glw{bottom:-1.4cqw}
 .sidewalk{width:100%;height:48px;margin-top:-1px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(#5a5c60,#3a3c40 18%,#2a2c2f),repeating-linear-gradient(90deg,#0000 0 160px,#1c1d20 160px 162px);background-blend-mode:multiply;box-shadow:inset 0 3px 0 #707378}
+
+/* móvil: segundo escaparate con lo que no cabe en vertical */
+.annex{display:none;container-type:inline-size;padding:5cqw 4cqw 7cqw;background:url("__BRICK__") 0 0/26cqw 13cqw,#4a1d12;position:relative}
+.annex::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#0000 40%,#000b 100%);pointer-events:none}
+.awin{position:relative;padding:3cqw;border-radius:1cqw;background:linear-gradient(#e4e6ee,#a7abbd 50%,#cfd2de);box-shadow:inset 0 0 0 .6cqw #fff8,inset 0 0 0 1.3cqw #6d7188,0 0 0 .8cqw #2a2d38,0 3cqw 6cqw #000a}
+.aglass{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0,#2f6a4c 0,#123222 50%,#06130c 100%);box-shadow:inset 0 0 0 .8cqw #2a2d38,inset 0 0 6cqw #000;padding:12cqw 5cqw 9cqw}
+.aglass::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,#fff0 30%,#ffffff14 36%,#fff0 44%)}
+.atube{position:absolute;left:20%;right:20%;top:3.5cqw;height:1.6cqw;border-radius:2cqw;background:#eaffef;box-shadow:0 0 3cqw #b8ffc8,0 0 9cqw #39ff8866;animation:flk 9s steps(1) infinite;opacity:1}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:11cqw 7cqw}
+.acard{position:relative;display:block;padding:2.2cqw 2.2cqw 2.2cqw;border:0;background:#f3f1ea;box-shadow:0 1.5cqw 3cqw #000a;cursor:pointer;text-decoration:none;transform:rotate(var(--r,0deg));transition:transform .2s}
+.acard:nth-child(even){margin-top:6cqw}
+.acard img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.92) contrast(1.05)}
+.acard::before{content:"";position:absolute;left:50%;top:-1.8cqw;width:3cqw;height:3cqw;margin-left:-1.5cqw;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#c9ccd5);box-shadow:0 .3cqw .4cqw #0008;z-index:2}
+.acard:active{transform:rotate(0) scale(1.04)}
+.acard .glw{font-size:3.4cqw;bottom:-3cqw;padding:1.2cqw 1.8cqw;letter-spacing:.14em}
+.acard.paper{background:linear-gradient(170deg,#f1ecdc,#d9d2bd);color:#1a1b1f;text-align:center;padding:3cqw}
+.acard.paper b{display:block;font:900 11cqw/.9 'Times New Roman',Georgia,serif;letter-spacing:.1em;border-bottom:.4cqw solid #1a1b1f;padding-bottom:1cqw}
+.acard.paper i{display:block;font:700 2cqw/1.2 'Space Mono',monospace;font-style:normal;margin:1.2cqw 0;border-bottom:.3cqw solid #1a1b1f;padding-bottom:1cqw}
+.acard.paper img{aspect-ratio:16/9;filter:grayscale(1) contrast(1.2)}
+.acard.star{background:none;box-shadow:none;padding:0;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.acard.star::before{display:none}
+.acard.star svg{width:100%;height:auto;filter:drop-shadow(0 1cqw 1.2cqw #0009)}
 /* objetos con los que se puede interactuar */
 .hs{z-index:10;padding:0;border:0;background:none;cursor:pointer;border-radius:.3cqw;transition:box-shadow .25s,background .25s}
 .hs:hover,.hs:focus-visible{background:#ffffff10;box-shadow:0 0 0 .15cqw #f6c51eaa,0 0 2.2cqw #f6c51e55}
@@ -269,7 +291,13 @@ button{font-family:inherit}
   .hs .tg{opacity:.85;transform:translate(-50%,0);font-size:max(8px,1.5cqw);padding:.6cqw .9cqw}
 }
 @media (max-width:760px){
-  .glw{font-size:1.7cqw;padding:.5cqw .8cqw;letter-spacing:.08em}
+  .stage{aspect-ratio:720/1195;overflow:hidden}
+  .stage>.bgimg{object-fit:cover;object-position:50% 0}
+  .at{left:calc(var(--x) * 2.22222 - 61.1111%);width:calc(var(--w) * 2.22222)}
+  .stk{--x:64.2%}
+  .glw{font-size:3.2cqw;padding:1cqw 1.5cqw;letter-spacing:.1em}
+  .annex{display:block;width:100%;box-sizing:border-box;align-self:stretch}
+  .mnav{display:none!important}
   .wrap{padding:8px 0 14px;justify-content:flex-start}
   .stage{width:100%;box-shadow:none}
   .mnav{display:flex;padding:12px 8px 0}
@@ -362,6 +390,12 @@ __PANELS__
     </section>
   </main>
 
+  <section class="annex" aria-label="Más secciones de la tienda">
+    <div class="awin"><div class="aglass">
+      <span class="atube" aria-hidden="true"></span>
+      <div class="agrid">__ANNEX__</div>
+    </div></div>
+  </section>
   <nav class="mnav" aria-label="Secciones">
     <button type="button" data-music="prod">Música</button><button type="button" data-music="mix">Mixes</button>
     <button type="button" data-p="p-shows">Shows</button><button type="button" data-p="p-vid">Vídeos</button>
