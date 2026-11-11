@@ -50,11 +50,32 @@ CARDS = [
  ('href="__IG_URL__" target="_blank" rel="noopener"', 'Instagram', (1055, 404, 1205, 525), 7, '__SERV__', '50% 30%'),
  ('href="__DRIVE_FOTOS__" target="_blank" rel="noopener"', 'Descargas', (1226, 521, 1352, 685), -10, '__YIN__', '50% 40%'),
 ]
+MAGS = {
+ 'Prensa': ('PRENSA', 'Lo que dicen', 1),
+ 'Shows': ('SHOWS', 'Gira 2026', 2),
+ 'Spotify': ('SPOTIFY', 'Escúchalo ya', 3),
+ 'Rider': ('RIDER', 'Técnica y hospitality', 4),
+ 'Fotos': ('FOTOS', 'Galería completa', 2),
+ 'Vídeos': ('VÍDEOS', 'Sets y reels', 1),
+ 'SoundCloud': ('SOUNDCLOUD', 'Mixes y edits', 4),
+ 'Instagram': ('INSTAGRAM', 'Detrás de cabina', 3),
+ 'Descargas': ('DESCARGAS', 'Press kit en HD', 1),
+}
+def mag(lab, img, op, i):
+    name, line, st = MAGS[lab.replace(' ↗', '')]
+    fs = min(30, 86 / ({1: .5, 2: .52, 3: .66, 4: .6}[st] * len(name)))
+    return ('<span class="mag m%d%s" style="--fs:%.1fcqw"><img src="%s" alt="" style="object-position:%s">'
+            '<b class="mh">%s</b><i class="iss">Nº %02d · 2026 · 3€</i><em class="cl">%s</em><i class="bc"></i></span>') % (st, ' clr' if name == 'SOUNDCLOUD' else '', fs, img, op, name, i + 3, line)
+def mcard(box, deg):
+    # portada vertical: mismo ancho que la postal, alto 1.3x, centrada en la postal original
+    x0,y0,x1,y1 = box; t=math.radians(abs(deg)); c,sn=math.cos(t),math.sin(t); d=c*c-sn*sn
+    bw,bh = x1-x0,y1-y0; W=(bw*c-bh*sn)/d*1.05; H=max((bh*c-bw*sn)/d*1.05, W*1.3); cx,cy=(x0+x1)/2,(y0+y1)/2
+    return '--x:%.2f%%;--y:%.2f%%;--w:%.2f%%;--h:%.2f%%;--r:%sdeg' % ((cx-W/2)/16,(cy-H/2)/11.95,W/16,H/11.95,deg)
 out = []
 for i,(at, lab, box, deg, img, op) in enumerate(CARDS):
     tag = 'a' if at.startswith('href') else 'button'
     typ = '' if tag == 'a' else ' type="button"'
-    out.append('<%s class="at hs card"%s %s style="%s;--pd:%ss" aria-label="%s"><img src="%s" alt="" style="object-position:%s"><i class="pin a"></i><i class="pin b"></i><span class="glw">%s</span></%s>' % (tag, typ, at, card(box, deg), -i*1.5, lab, img, op, lab + (' ↗' if tag == 'a' else ''), tag))
+    out.append('<%s class="at hs card mag-c"%s %s style="%s;--pd:%ss" aria-label="%s">%s<i class="pin a"></i><i class="pin b"></i><span class="glw">%s</span></%s>' % (tag, typ, at, mcard(box, deg), -i*1.5, lab, mag(lab, img, op, i), lab + (' ↗' if tag == 'a' else ''), tag))
 def pc(x0, y0, x1, y1): return '--x:%.2f%%;--y:%.2f%%;--w:%.2f%%;--h:%.2f%%' % (x0/16, y0/11.95, (x1-x0)/16, (y1-y0)/11.95)
 HS = [
  ('href="https://open.spotify.com/artist/2v8V8xnimi2FUOxXWINNUr" target="_blank" rel="noopener"', 'spotify ↗', (1425, 340, 1595, 790), '', -11),
@@ -113,7 +134,7 @@ for tag, at, lab, kind, img, r in AN:
     elif kind == 'star':
         inner = '<svg viewBox="0 0 206 166" aria-hidden="true"><polygon points="%s" fill="#ff7a1a"/><g transform="rotate(-14 103 83)" fill="#2a1640" text-anchor="middle" font-family="Permanent Marker,Comic Sans MS,cursive"><text x="103" y="78" font-size="25">SPECIAL</text><text x="106" y="108" font-size="25">TRACKS</text></g></svg>' % o_star
     else:
-        inner = '<img src="%s" alt="">' % img
+        inner = '<i class="tp" style="left:-8%"></i><i class="tp" style="right:-8%;transform:rotate(14deg)"></i>' + mag(lab, img, '50% 35%', len(ah)); kind = 'magz'
     ah.append('<%s class="acard %s"%s %s style="--r:%sdeg" aria-label="%s">%s<span class="glw" aria-hidden="true">%s</span></%s>' % (tag, kind, typ, at, r, lab.replace(' ↗',''), inner, lab, tag))
 s = s.replace('__ANNEX__', ''.join(ah))
 s = s.replace('__PANELS__', P)
@@ -129,8 +150,9 @@ pn = lambda p: 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read())
 for k, v in {'__SHOP__': b('img/shop.jpg'), '__FASCIA__': b('img/fascia_tile.jpg'), '__BRICK__': open('brick_uri.txt').read(), '__LOGO__': pn('img/logo_dep.png'), '__SHOPCROP__': b('img/shopcrop.jpg'), '__DOG__': pn('img/dog_head.png'), '__HEAD__': pn('img/head_sprite.png'), '__DOGFULL__': pn('img/dog_cut.png'), '__PUP__': pn('img/pup_head.png'),
              '__RAZZ__': b('img/p_razz.jpg'), '__PFP__': b('img/pfp.jpg'), '__WOLVES__': b('img/p_wolves.jpg'), '__HOW__': b('img/g_how.jpg'), '__YIN__': b('img/g_yin.jpg'), '__FURRY__': b('img/p_furry.jpg'), '__SERV__': b('img/p_serv.jpg'), '__COVER__': b('img/cover.jpg'), '__PHOTO__': b('img/photo.jpg'),
              '__DRIVE_FOTOS__': 'https://drive.google.com/drive/folders/1-zXdux3NVXg0APTMoxG6T4v7MVquMrON?usp=sharing', '__DRIVE_VIDEOS__': 'https://drive.google.com/drive/folders/1HcD8o-i_sStxpM09HUEj9DMKFLajxro5?usp=sharing',
+             '__FONTS__': ''.join("@font-face{font-family:'%s';src:url(data:font/woff2;base64,%s) format('woff2');font-weight:%s;font-style:%s;font-display:swap}" % (f, base64.b64encode(open('fonts/'+n,'rb').read()).decode(), w, st) for f, n, w, st in [('Anton', 'anton-latin-400-normal.woff2', 400, 'normal'), ('Playfair Display', 'playfair-display-latin-900-italic.woff2', 900, 'italic'), ('Oswald', 'oswald-latin-600-normal.woff2', 600, 'normal')]),
              '__IG_URL__': 'https://www.instagram.com/lilfemiranda/', '__BOOKING_EMAIL__': 'deprerreoforever@gmail.com'}.items():
     s = s.replace(k, v)
 assert not re.findall(r'__[A-Z0-9_]+__', s), re.findall(r'__[A-Z0-9_]+__', s)
-open('../index.html', 'w', encoding='utf-8').write(s)
+open(os.environ.get('OUT', '../index.html'), 'w', encoding='utf-8').write(s)
 print('ok', len(s))

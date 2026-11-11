@@ -93,6 +93,37 @@ button{font-family:inherit}
 .card .pin{position:absolute;width:.55cqw;height:.55cqw;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#c9ccd5);box-shadow:0 .1cqw .15cqw #0008;top:1.5%;z-index:2}
 .card .pin.a{left:2.5%}.card .pin.b{right:2.5%}
 .card:hover,.card:focus-visible{transform:rotate(0) scale(1.08);z-index:20;background:#fff}
+__FONTS__
+/* ── portadas de revista pegadas al kiosko ── */
+.card.mag-c{background:#0d0d0d;box-shadow:.2cqw .5cqw 1cqw #000c,inset 0 0 0 .08cqw #fff3}
+.card.mag-c:hover,.card.mag-c:focus-visible{background:#0d0d0d}
+.card.mag-c::after{background:linear-gradient(115deg,#fff0 30%,#ffffff2e 42%,#fff0 55%),linear-gradient(135deg,#bff5d80d,#0a301a33)}
+.card.mag-c .pin,.acard.magz .tp{position:absolute;top:-3.5%;width:34%;height:8%;border-radius:0;background:linear-gradient(#f6efd3c9,#e8dcb3b8);box-shadow:0 .08cqw .2cqw #0005;z-index:3;transform:rotate(-14deg)}
+.card.mag-c .pin.a{left:-9%}.card.mag-c .pin.b{right:-9%;left:auto;transform:rotate(14deg)}
+.mag{position:absolute;inset:0;display:block;overflow:hidden;container-type:inline-size;background:#111;text-align:left}
+.mag img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.06)}
+.mag .mh{position:absolute;left:0;right:0;top:0;display:block;padding:3cqw 4cqw 2cqw;font:400 var(--fs)/.88 Anton,Impact,'Arial Narrow',sans-serif;letter-spacing:.005em;color:#fff;text-align:center;z-index:1;white-space:nowrap}
+.mag .iss{position:absolute;left:5cqw;right:5cqw;top:calc(var(--fs) * .88 + 6cqw);font:700 4.6cqw/1 'Space Mono',monospace;font-style:normal;color:#fff;text-shadow:0 0 1cqw #000;letter-spacing:.04em;z-index:1}
+.mag .cl{position:absolute;left:5cqw;bottom:6cqw;max-width:62%;font:600 8.4cqw/1.08 Oswald,'Arial Narrow',sans-serif;font-style:normal;text-transform:uppercase;color:#111;z-index:1}
+.mag .cl{background:#f6c51e;padding:1cqw 2cqw;box-decoration-break:clone;-webkit-box-decoration-break:clone;display:inline;position:absolute}
+.mag .bc{position:absolute;right:4cqw;bottom:4cqw;width:20cqw;height:13cqw;background:repeating-linear-gradient(90deg,#111 0 .9cqw,#fff .9cqw 1.7cqw,#111 1.7cqw 2.2cqw,#fff 2.2cqw 3.4cqw) 1.5cqw 1.5cqw/17cqw 8cqw no-repeat,#fff;z-index:1}
+/* estilos de cabecera */
+.mag.m1 .mh{background:#d81e2a;color:#fff;padding-bottom:3cqw;box-shadow:0 .6cqw 0 #0006}
+.mag.m1 .iss{color:#fff}
+.mag.m2 .mh{color:#ffd400;-webkit-text-stroke:.5cqw #111;paint-order:stroke fill;text-shadow:1.2cqw 1.2cqw 0 #111}
+.mag.m2 .cl{background:#e8187a;color:#fff}
+.mag.m3 .mh{font:italic 900 var(--fs)/.95 'Playfair Display',Georgia,serif;color:#fff;text-shadow:0 .6cqw 2cqw #0009;letter-spacing:-.02em}
+.mag.m3 .cl{background:#fff;color:#111}
+.mag.m4 .mh{color:#7df9e1;font-family:Oswald,'Arial Narrow',sans-serif;font-weight:600;letter-spacing:.06em;text-shadow:0 0 2cqw #000,0 0 .8cqw #000}
+.mag.m4 .cl{background:#111;color:#7df9e1;outline:.4cqw solid #7df9e1}
+.mag::after{content:"";position:absolute;inset:0;background:linear-gradient(#0000 60%,#0007);pointer-events:none}
+.card.mag-c>.glw,.acard.magz>.glw{display:none}
+.mag.clr .cl{left:auto;right:5cqw}.mag.clr .bc{right:auto;left:4cqw;bottom:auto;top:calc(var(--fs) * .88 + 13cqw)}
+/* anexo móvil */
+.acard.magz{padding:0;background:#0d0d0d}
+.acard.magz::before{display:none}
+.acard.magz .mag{position:relative;aspect-ratio:3/4}
+.acard.magz .mag img{aspect-ratio:auto}
 
 /* texto luminoso para saber dónde pinchar */
 .glw{position:absolute;left:50%;bottom:-.9cqw;transform:translateX(-50%);z-index:3;white-space:nowrap;pointer-events:none;
@@ -262,6 +293,8 @@ button{font-family:inherit}
 .ul{margin:0;padding-left:18px}
 .ul li{margin:0 0 6px}
 .ul li::marker{color:#f6c51e}
+.vlink{color:inherit;text-decoration:underline dotted #20d6c8 1px;text-underline-offset:3px}
+.vlink:hover{color:#f6c51e;text-decoration-color:#f6c51e}
 .rider{font:700 14px/2 'Space Mono',monospace;color:#e9f7ef;text-align:center;letter-spacing:.06em}
 .frm label{display:block;font:700 10px 'Space Mono',monospace;letter-spacing:.14em;color:#20d6c8;text-transform:uppercase;margin:10px 0 4px}
 .frm input,.frm select,.frm textarea{width:100%;font:14px Verdana,sans-serif;color:#fff;background:#000;border:1px solid #23463a;padding:9px;min-height:40px}
