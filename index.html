@@ -684,6 +684,25 @@ $('#bookForm').addEventListener('submit', (e) => {
     {title:'LA CREOLE invite L\'Miranda', info:'Rinse France · 07.04.2024', url:'https://soundcloud.com/rinse_france/la-creole-invite-lmiranda-07-avril-2024'},
     {title:'Música Para Perrear Triste', info:'Mix de L\'Miranda para Deprerreo', url:'https://soundcloud.com/deprerreo/musica-para-perrear-triste'}
   ];
+  /* temas que no están en la playlist de SoundCloud (se muestran primero, los más nuevos arriba) */
+  const SC_ = 'https://soundcloud.com/', SP_ = 'https://open.spotify.com/track/';
+  const EXTRA = [
+    {title:'Kruela x L\'Miranda x Unlimitedwifi - BANDiDOS', year:2026, url:SC_+'deprerreo/bandidos-kruela-x-lmiranda'},
+    {title:'Ibn Itaka, David de Che, L\'Miranda - ABRETE CORAZÓN', year:2026, sp:SP_+'3HQXYUzZThxWus2rITpSFh'},
+    {title:'L\'Miranda - Every Day Patches The Night Up', year:2026, url:SC_+'l-miranda999/every-day-patches-the-night-up'},
+    {title:'CRRDR x L\'Miranda - TE GUSTA MI BACHATA', year:2025, sp:SP_+'0j4wwBV7QmvyIF6L5mDYkk'},
+    {title:'CRRDR x L\'Miranda - TE GUSTA MI BACHATA (CRRDR Flip)', year:2025, url:SC_+'traaampaaa/premiere-crrdr-x-lmiranda-te-gusta-mi-bachata-crrdr-flip'},
+    {title:'L\'Miranda x Kruela x Malandra x Candadismo - MARCHA MARCHA', year:2025, url:SC_+'globalc0re/lmiranda-x-candadismo-x-kruela-x-malandra-marcha-marcha-16'},
+    {title:'L\'Miranda - LA MMWBDA', year:2024, url:SC_+'deprerreo/lmiranda-la-mmwbd-master-2'},
+    {title:'CRRDR x L\'Miranda - Vaya Loki! (Malandrógino Mix)', year:2023, url:SC_+'lafrancesssap/8-vaya-loki-crrdr-x-lmiranda'},
+    {title:'L\'Miranda x Feid - T Kiero Ver (Intro de Camionetica)', year:2021, url:SC_+'deprerreo/intro-lmiranda-x-feid-t-kiero'},
+    {title:'L\'Miranda - La Canción Remix', year:2020, url:SC_+'deprerreo/lmiranda-la-cancion-remix'},
+    {title:'YUNGLiAN x L\'Miranda - DEPRERREO (ACETO Remix)', year:2020, url:SC_+'deprerreo/2-deprerreo-aceto-remix'},
+    {title:'YUNGLiAN x L\'Miranda - DEPRERREO (Kid Cala Remix)', year:2020, url:SC_+'deprerreo/1-deprerreo-kid-cala-remix'},
+    {title:'L\'Miranda - Feel It Remix', year:2019, url:SC_+'clubdelritmo/lmiranda-feel-it-remix'}
+  ];
+  const E = EXTRA.length;
+  let ext = -1, setSounds = [];
   const embed = (url, auto) => 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url) + '&color=%23f6c51e&auto_play=' + (auto ? 'true' : 'false') + '&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false';
   const OPTS = {auto_play:false, hide_related:true, show_comments:false, show_user:true, show_reposts:false, show_teaser:false, visual:false, color:'#f6c51e'};
   const iframe = $('#sc'), viz = $('#viz'), seek = $('#seek');
@@ -701,12 +720,18 @@ $('#bookForm').addEventListener('submit', (e) => {
       L.innerHTML = MIXES.map((m,i) => '<li class="'+(i===mixIdx?'active':'')+'"><div class="tt"><button type="button" data-i="'+i+'">'+esc(m.title)+'</button></div><div class="info">'+esc(m.info)+'</div><div class="ac"><button type="button" data-i="'+i+'">Escuchar</button> | <a href="'+esc(m.url)+'" target="_blank" rel="noopener">Comentar</a> | <a href="'+esc(m.url)+'" target="_blank" rel="noopener">Compartir</a></div></li>').join('');
       return;
     }
-    setTxt('#nTracks', 'Temas: ' + (sounds.length || '—'));
-    if (!sounds.length) { L.innerHTML = '<li>Los temas suenan en el reproductor de SoundCloud de abajo ↓ · <a href="'+PRODUCED+'" target="_blank" rel="noopener">abrir en SoundCloud</a></li>'; return; }
-    L.innerHTML = sounds.map((s,i) => {
+    setTxt('#nTracks', 'Temas: ' + (E + (setSounds.length || 0)));
+    const ex = EXTRA.map((x,j) => {
+      const link = x.url || x.sp, act = (ext === j) ? 'active' : '';
+      const play = x.url ? '<button type="button" data-x="'+j+'">Escuchar</button>' : '<a href="'+esc(x.sp)+'" target="_blank" rel="noopener">Escuchar en Spotify ↗</a>';
+      const tt = x.url ? '<button type="button" data-x="'+j+'">'+esc(x.title)+'</button>' : '<a href="'+esc(x.sp)+'" target="_blank" rel="noopener">'+esc(x.title)+'</a>';
+      return '<li class="'+act+'"><div class="tt">'+tt+'<span class="pl">'+x.year+(x.sp ? ' · Spotify' : '')+'</span></div><div class="ac">'+play+' | <a href="'+esc(link)+'" target="_blank" rel="noopener">Compartir</a></div></li>';
+    }).join('');
+    if (!setSounds.length) { L.innerHTML = ex + '<li>Más temas en el reproductor de SoundCloud de abajo ↓ · <a href="'+PRODUCED+'" target="_blank" rel="noopener">abrir en SoundCloud</a></li>'; return; }
+    L.innerHTML = ex + setSounds.map((s,i) => {
       const t = (s && s.title) || ('Tema ' + (i+1)), url = (s && s.permalink_url) || PRODUCED;
       const plays = s && s.playback_count ? 'Plays: ' + s.playback_count.toLocaleString('es-ES') : '';
-      return '<li class="'+(i===idx?'active':'')+'"><div class="tt"><button type="button" data-i="'+i+'">'+esc(t)+'</button><span class="pl">'+plays+'</span></div><div class="ac"><button type="button" data-i="'+i+'">Escuchar</button> | <a href="'+esc(url)+'" target="_blank" rel="noopener">Comentar</a> | <a href="'+esc(url)+'" target="_blank" rel="noopener">Compartir</a></div></li>';
+      return '<li class="'+(ext<0 && i===idx?'active':'')+'"><div class="tt"><button type="button" data-i="'+i+'">'+esc(t)+'</button><span class="pl">'+plays+'</span></div><div class="ac"><button type="button" data-i="'+i+'">Escuchar</button> | <a href="'+esc(url)+'" target="_blank" rel="noopener">Comentar</a> | <a href="'+esc(url)+'" target="_blank" rel="noopener">Compartir</a></div></li>';
     }).join('');
   };
   const paintTabs = () => {
@@ -731,7 +756,7 @@ $('#bookForm').addEventListener('submit', (e) => {
   const cur = () => {
     if (!w) return;
     w.getCurrentSound((s) => { if (!s) return; setTxt('#pTitle', s.title || '—'); setTxt('#pArtist', (s.user && s.user.username) || 'L\'Miranda'); dur = s.duration || 0; });
-    if (mode === 'prod') w.getCurrentSoundIndex((i) => { idx = i; setTxt('#pTrackNo', (i+1) + '/' + (sounds.length || 1)); renderList(); });
+    if (mode === 'prod') { if (ext >= 0) { setTxt('#pTrackNo', (ext+1) + '/' + (E + setSounds.length)); renderList(); } else w.getCurrentSoundIndex((i) => { idx = i; setTxt('#pTrackNo', (E+i+1) + '/' + (E + setSounds.length)); renderList(); }); }
     else { setTxt('#pTrackNo', 'mix ' + (mixIdx+1) + '/' + MIXES.length); renderList(); }
   };
   const loadUrl = (url, play, after) => {
@@ -740,10 +765,15 @@ $('#bookForm').addEventListener('submit', (e) => {
     w.load(url, Object.assign({}, OPTS, {auto_play: !!play, callback: () => { w.setVolume(+($('#vol')?.value || 80)); if (after) after(); cur(); }}));
   };
   const loadMix = (i, play) => { mixIdx = (i + MIXES.length) % MIXES.length; loadUrl(MIXES[mixIdx].url, play); renderList(); };
+  const nextSc = (j, d) => { for (let k = 0; k < E; k++) { j += d; if (j < 0 || j >= E) return -1; if (EXTRA[j].url) return j; } return -1; };
+  const loadExtra = (j, play) => { ext = j; loadUrl(EXTRA[j].url, play); renderList(); };
+  const loadSet = (i, play) => { ext = -1; loadUrl(PRODUCED, play, () => { w.getSounds((l) => { if (l && l.length) setSounds = l; renderList(); }); if (i > 0) w.skip(i); }); };
+  const goNext = () => { if (ext >= 0) { const j = nextSc(ext, 1); j >= 0 ? loadExtra(j, true) : loadSet(0, true); } else if (idx >= setSounds.length - 1 && setSounds.length) { loadExtra(nextSc(-1, 1), true); } else w.next(); };
+  const goPrev = () => { if (ext >= 0) { const j = nextSc(ext, -1); j >= 0 ? loadExtra(j, true) : loadSet(Math.max(setSounds.length - 1, 0), true); } else if (idx <= 0) { const j = nextSc(E, -1); if (j >= 0) loadExtra(j, true); } else w.prev(); };
   const setMode = (m, play) => {
     if (m === mode) return; mode = m; paintTabs();
     if (m === 'mix') loadMix(0, play);
-    else { sounds = []; renderList(); loadUrl(PRODUCED, play, () => w.getSounds((l) => { sounds = l || []; renderList(); })); }
+    else { ext = -1; renderList(); loadUrl(PRODUCED, play, () => w.getSounds((l) => { if (l && l.length) setSounds = l; renderList(); })); }
   };
 
   /* botones (funcionan con o sin API) */
@@ -751,10 +781,15 @@ $('#bookForm').addEventListener('submit', (e) => {
   $('#tabMix')?.addEventListener('click', () => setMode('mix', false));
   $('#bPlay')?.addEventListener('click', () => { if (w) w.toggle(); else { iframe.src = srcFor(true); if (window.showMusic) window.showMusic(); else iframe.scrollIntoView({block:'nearest', behavior:'smooth'}); } });
   $('#bStop')?.addEventListener('click', () => { if (w) { w.pause(); w.seekTo(0); } else iframe.src = srcFor(false); if (seek) seek.value = 0; setTxt('#pTime', '00:00'); });
-  $('#bNext')?.addEventListener('click', () => mode === 'mix' ? loadMix(mixIdx + 1, true) : (w ? w.next() : null));
-  $('#bPrev')?.addEventListener('click', () => mode === 'mix' ? loadMix(mixIdx - 1, true) : (w ? w.prev() : null));
+  $('#bNext')?.addEventListener('click', () => mode === 'mix' ? loadMix(mixIdx + 1, true) : (w ? goNext() : null));
+  $('#bPrev')?.addEventListener('click', () => mode === 'mix' ? loadMix(mixIdx - 1, true) : (w ? goPrev() : null));
   $('#quickPlay')?.addEventListener('click', () => { location.hash = '#musica'; if (w) w.play(); else iframe.src = srcFor(true); });
-  $('#plist')?.addEventListener('click', (e) => { const b = e.target.closest('button[data-i]'); if (!b) return; const i = +b.dataset.i; if (mode === 'mix') loadMix(i, true); else if (w) w.skip(i); });
+  $('#plist')?.addEventListener('click', (e) => {
+    const x = e.target.closest('button[data-x]');
+    if (x) { const j = +x.dataset.x; if (w) loadExtra(j, true); else { ext = j; iframe.src = embed(EXTRA[j].url, true); renderList(); } return; }
+    const b = e.target.closest('button[data-i]'); if (!b) return; const i = +b.dataset.i;
+    if (mode === 'mix') loadMix(i, true); else if (w) { if (ext >= 0) loadSet(i, true); else w.skip(i); }
+  });
   $('#vol')?.addEventListener('input', (e) => w && w.setVolume(+e.target.value));
   seek?.addEventListener('input', () => { seeking = true; });
   seek?.addEventListener('change', () => { if (w && dur) w.seekTo(seek.value/1000*dur); seeking = false; });
@@ -767,10 +802,10 @@ $('#bookForm').addEventListener('submit', (e) => {
   if (!window.SC || !SC.Widget) { noApi(); return; }
   w = SC.Widget(iframe);
   const ft = setTimeout(() => { if (!ready) noApi(); }, 9000);
-  w.bind(SC.Widget.Events.READY, () => { if (ready) return; ready = true; clearTimeout(ft); if (window.AUTO_PLAY) w.play(); w.setVolume(+($('#vol')?.value || 80)); setTxt('#pState', 'listo'); if (mode === 'prod') w.getSounds((l) => { sounds = l || []; renderList(); cur(); }); else cur(); });
+  w.bind(SC.Widget.Events.READY, () => { if (ready) return; ready = true; clearTimeout(ft); if (window.AUTO_PLAY) w.play(); w.setVolume(+($('#vol')?.value || 80)); setTxt('#pState', 'listo'); if (mode === 'prod') w.getSounds((l) => { setSounds = l || []; renderList(); cur(); }); else cur(); });
   w.bind(SC.Widget.Events.PLAY, () => { playing = true; ico(); cur(); });
   w.bind(SC.Widget.Events.PAUSE, () => { playing = false; ico(); });
-  w.bind(SC.Widget.Events.FINISH, () => { playing = false; ico(); if (mode === 'mix') loadMix(mixIdx + 1, true); });
+  w.bind(SC.Widget.Events.FINISH, () => { playing = false; ico(); if (mode === 'mix') loadMix(mixIdx + 1, true); else if (ext >= 0 || (setSounds.length && idx >= setSounds.length - 1)) goNext(); });
   w.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => { setTxt('#pTime', fmt(e.currentPosition)); if (!seeking && dur && seek) seek.value = Math.round(e.currentPosition/dur*1000); });
 })();
 
